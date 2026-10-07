@@ -47,6 +47,7 @@ export function mergeEnvironmentSchemas<
     // Every schema succeeded, so `merged` holds each schema's output. The
     // compiler can't follow a loop that assigns several typed objects into
     // one, so the combined type is stated here, once.
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- see above
     return merged as MergedEnvironment<TSchemas>;
   };
 }
