@@ -90,22 +90,22 @@ describe('WelcomeService', () => {
     it('should call mailer.send with correct values', async () => {
       const { sut, mailerStub } = makeSut();
 
-      await sut.welcome({ email: 'user@example.com' });
+      await sut.welcome({ email: 'any@email.com' });
 
       expect(mailerStub.send).toHaveBeenCalledWith({
-        to: 'user@example.com',
+        to: 'any@email.com',
         subject: 'Welcome',
       });
     });
 
     it('should throw when the mailer fails', async () => {
       const { sut, mailerStub } = makeSut();
-      mailerStub.send.mockRejectedValueOnce(new MailerError('unavailable'));
+      mailerStub.send.mockRejectedValueOnce(new MailerError('any-message'));
 
-      const promise = sut.welcome({ email: 'user@example.com' });
+      const promise = sut.welcome({ email: 'any@email.com' });
 
       await expect(promise).rejects.toThrow(MailerError);
-      await expect(promise).rejects.toMatchObject({ message: 'unavailable' });
+      await expect(promise).rejects.toMatchObject({ message: 'any-message' });
     });
   });
 });
@@ -140,8 +140,11 @@ describe('WelcomeService', () => {
   truly dynamic (a generated id, a timestamp).
 - **Error class and properties together.** Capture the promise once and chain
   two `rejects` matchers on it, as in the example above.
-- **Realistic fixtures.** Fixture defaults are valid, realistic values. Use a
-  specific literal only when the assertion depends on that exact value.
+- **`any-` fixtures.** Values whose content doesn't matter are explicit
+  literals prefixed with `any`: `'any-message'`, `'any-name'`,
+  `'any@email.com'`. The prefix tells the reader the test doesn't depend on
+  it. Use a meaningful literal (`'invalid-email'`, `65536`) only when the
+  behavior under test depends on that exact value.
 
 ### Integration tests
 
