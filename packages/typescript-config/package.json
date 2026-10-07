@@ -1,0 +1,41 @@
+{
+  "name": "@imcauan/typescript-config",
+  "version": "0.1.0",
+  "description": "Shared tsconfig bases for TypeScript libraries and apps.",
+  "homepage": "https://github.com/imcauan/packages/tree/main/packages/typescript-config#readme",
+  "bugs": "https://github.com/imcauan/packages/issues",
+  "license": "MIT",
+  "author": "Cauan Diniz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imcauan/packages.git",
+    "directory": "packages/typescript-config"
+  },
+  "files": [
+    "base.json",
+    "nest.json",
+    "react-library.json",
+    "tanstack-start.json"
+  ],
+  "type": "module",
+  "exports": {
+    "./base.json": "./base.json",
+    "./nest.json": "./nest.json",
+    "./react-library.json": "./react-library.json",
+    "./tanstack-start.json": "./tanstack-start.json",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
