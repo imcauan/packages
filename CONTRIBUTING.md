@@ -36,7 +36,7 @@ pnpm build             # tests and type checks read sibling packages from dist
    checks each message.
 3. **Add a changeset** if a published package changed
    ([docs/CHANGESET.md](docs/CHANGESET.md)).
-4. **Push.** The `pre-push` hook runs format, lint, knip, build, typecheck and
+4. **Push.** The `pre-push` hook runs format, lint, build, knip, typecheck and
    tests. Fix what fails; never push with `--no-verify`.
 5. **Open a PR** to `main`. CI runs the same checks plus
    `changeset status`. The PR title follows the commit convention, because the

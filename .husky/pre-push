@@ -6,8 +6,8 @@ PUSH_REFS=$(cat)
 
 pnpm format
 pnpm lint
+pnpm build      # knip, typecheck and tests read sibling packages from dist
 pnpm knip
-pnpm build      # typecheck and tests read sibling packages from dist
 pnpm typecheck
 pnpm test
 

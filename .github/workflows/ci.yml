@@ -33,11 +33,12 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Unused code and dependencies
-        run: pnpm knip
-
+      # Before knip, typecheck and tests: they read sibling packages from dist.
       - name: Build
         run: pnpm build
+
+      - name: Unused code and dependencies
+        run: pnpm knip
 
       - name: Typecheck
         run: pnpm typecheck
