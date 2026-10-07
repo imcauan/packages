@@ -1,0 +1,52 @@
+{
+  "name": "@imcauan/vitest-config",
+  "version": "0.1.0",
+  "description": "Shared Vitest config: defaults, aliases, coverage exclusions and test-type label presets.",
+  "homepage": "https://github.com/imcauan/packages/tree/main/packages/vitest-config#readme",
+  "bugs": "https://github.com/imcauan/packages/issues",
+  "license": "MIT",
+  "author": "Cauan Diniz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imcauan/packages.git",
+    "directory": "packages/vitest-config"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@imcauan/test-setup": "workspace:^"
+  },
+  "devDependencies": {
+    "@imcauan/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "vitest": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
