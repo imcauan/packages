@@ -1,0 +1,44 @@
+name: Snapshot release
+
+# Publishes a pre-release of the selected branch under the `next` tag.
+# See docs/RELEASING.md#snapshot-releases.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: snapshot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    name: Publish snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Set up workspace
+        uses: ./.github/actions/setup
+        with:
+          registry-url: https://npm.pkg.github.com
+
+      # Versions become e.g. 0.2.0-next-20261007153000. Nothing is committed.
+      - name: Version snapshot
+        run: pnpm changeset version --snapshot next
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # changelog links
+
+      - name: Build
+        run: pnpm build
+
+      - name: Publish under the next tag
+        run: pnpm changeset publish --tag next --no-git-tag
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

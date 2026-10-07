@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write # version commits, tags and GitHub releases
+  pull-requests: write # the "chore: version packages" PR
+  packages: write # publishing to GitHub Packages
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Version or publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Set up workspace
+        uses: ./.github/actions/setup
+        with:
+          registry-url: https://npm.pkg.github.com
+
+      # With pending changesets: opens or updates the version PR.
+      # Without: publishes every version that isn't on the registry yet.
+      - name: Version packages or publish
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          version-script: pnpm version-packages
+          publish-script: pnpm release
+          commit-message: 'chore: version packages'
+          pr-title: 'chore: version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # changelog links
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # publishing
