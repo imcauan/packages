@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { parseArgs } from 'node:util';
 
@@ -54,7 +55,11 @@ async function main(): Promise<number> {
     return 0;
   }
 
-  const cwd = process.cwd();
+  // Run from any directory (pnpm runs scripts from the package's): git
+  // pathspecs and the .changeset folder are relative to the repository root.
+  const cwd = execFileSync('git', ['rev-parse', '--show-toplevel'], {
+    encoding: 'utf8',
+  }).trim();
   const [remote] = positionals;
   const terminal = openTerminal();
   const output = terminal?.output ?? process.stderr;
