@@ -1,0 +1,27 @@
+import { defineConfig } from 'oxfmt';
+
+export default defineConfig({
+  semi: true,
+  trailingComma: 'all',
+  singleQuote: true,
+  printWidth: 80,
+  tabWidth: 2,
+  useTabs: false,
+  bracketSpacing: true,
+  bracketSameLine: false,
+  arrowParens: 'avoid',
+  endOfLine: 'lf',
+  quoteProps: 'as-needed',
+  jsxSingleQuote: false,
+  proseWrap: 'preserve',
+  embeddedLanguageFormatting: 'auto',
+  ignorePatterns: [
+    'node_modules/',
+    'dist/',
+    'coverage/',
+    '*.d.ts',
+    '*.d.mts',
+    '*.tgz',
+    'pnpm-lock.yaml',
+  ],
+});
