@@ -10,18 +10,10 @@ far each one is bumped, and a summary for the changelog.
 Every change to a published package needs a changeset
 ([constitution](../CONSTITUTION.md), rule 9).
 
-A package counts as changed when a file that ends up in its published tarball,
-or that shapes it, changes. The patterns live in `.changeset/config.json`
-(`changedFilePatterns`):
-
-- `src/**`
-- `*.json` (`package.json`, `tsconfig.json`, and the config files of
-  `typescript-config`)
-- `README.md`
-- `tsdown.config.ts`
-
-Changes to tests, `vitest.config.ts` or repo-level files don't need one.
-Packages in `tools/` are private and never versioned.
+A package counts as changed when any file in its folder changes, tests
+included. When a change doesn't need a release (tests, a comment typo), add
+an [empty changeset](#changes-that-dont-need-a-release). Packages in `tools/`
+are private and never versioned.
 
 CI runs `changeset status --since=origin/main` on every pull request. It fails
 when a published package changed and the branch has no changeset.
@@ -90,8 +82,8 @@ changesets that list it.
 
 ### Changes that don't need a release
 
-If a published package changed but shouldn't be released (say, a comment typo
-in `src/`), add an empty changeset so CI passes:
+If a published package changed but shouldn't be released (say, a test or a
+comment typo), add an empty changeset so CI passes:
 
 ```bash
 pnpm changeset --empty

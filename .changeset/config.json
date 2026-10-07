@@ -7,7 +7,6 @@
   "commit": false,
   "access": "public",
   "baseBranch": "main",
-  "changedFilePatterns": ["src/**", "*.json", "README.md", "tsdown.config.ts"],
   "updateInternalDependencies": "patch",
   "privatePackages": { "version": false, "tag": false },
   "snapshot": {

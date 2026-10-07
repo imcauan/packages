@@ -16,9 +16,8 @@ Use [Changesets](https://github.com/changesets/changesets):
 
 - Each change to a published package comes with a changeset: the packages, a
   bump per package, and a summary.
-- `changedFilePatterns` limits "changed" to files that shape the published
-  package (`src/**`, `*.json`, `README.md`, `tsdown.config.ts`), so test-only
-  changes don't need a changeset.
+- Any file change inside a package counts as a change. Changes that shouldn't
+  be released (tests only, for example) use an empty changeset.
 - Packages in `tools/` are private and ignored (`privatePackages` off).
 - `changesets/action` keeps a "chore: version packages" PR open and publishes
   when it's merged ([RELEASING.md](../RELEASING.md)).
