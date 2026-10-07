@@ -54,6 +54,10 @@ all of them at `0.1.0`. Before that push:
 
 - [ ] The repository is `github.com/imcauan/packages`. The package scope must
       match the owner.
+- [ ] `.changeset/` holds no changeset files, **empty ones included**. While
+      any is pending, the workflow takes the "version packages" path instead
+      of publishing, and with only empty ones it does neither ("All changesets
+      are empty. Not creating PR").
 - [ ] **Settings → Actions → General → Workflow permissions**: "Read and write
       permissions", and "Allow GitHub Actions to create and approve pull
       requests" (the version PR needs it).
