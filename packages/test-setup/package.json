@@ -1,0 +1,58 @@
+{
+  "name": "@imcauan/test-setup",
+  "version": "0.1.0",
+  "description": "Framework-free test helpers, plus a Vitest reporter that labels tests by type.",
+  "homepage": "https://github.com/imcauan/packages/tree/main/packages/test-setup#readme",
+  "bugs": "https://github.com/imcauan/packages/issues",
+  "license": "MIT",
+  "author": "Cauan Diniz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imcauan/packages.git",
+    "directory": "packages/test-setup"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./vitest": {
+      "types": "./dist/vitest/index.d.mts",
+      "default": "./dist/vitest/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@imcauan/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "vitest": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vitest": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
