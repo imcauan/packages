@@ -35,22 +35,25 @@ a token even for public packages.
 
 1. Create a [classic personal access token](https://github.com/settings/tokens)
    with the `read:packages` scope.
-2. Add a `.npmrc` to your project:
+2. Point the `@imcauan` scope at GitHub Packages in your project's `.npmrc`
+   (safe to commit):
 
    ```ini
    @imcauan:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
    ```
 
-3. Export the token and install:
+3. Put the token in your **user** `~/.npmrc`, not the project's. pnpm 11
+   ignores auth tokens in a project `.npmrc`.
 
    ```bash
-   export GITHUB_TOKEN=<your token>
+   echo '//npm.pkg.github.com/:_authToken=<your token>' >> ~/.npmrc
    pnpm add @imcauan/validation
    ```
 
-In CI, provide the token as a secret. Each package's README lists its peer
-dependencies.
+In CI, pass the token as a secret and write it to the user config, for
+example with `actions/setup-node` (`registry-url: https://npm.pkg.github.com`,
+`scope: '@imcauan'`, and `NODE_AUTH_TOKEN` set to the secret). Each package's
+README lists its peer dependencies.
 
 ## Documentation
 
