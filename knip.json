@@ -5,11 +5,7 @@
       "entry": ["*.config.{ts,mjs}"]
     },
     "packages/*": {
-      "entry": [
-        "src/index.ts",
-        "src/*/index.ts",
-        "tests/**/*.{spec,test}.{ts,tsx}"
-      ],
+      "entry": ["tests/**/*.{spec,test}.{ts,tsx}"],
       "project": ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}", "*.config.ts"]
     },
     "packages/typescript-config": {
