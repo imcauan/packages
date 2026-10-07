@@ -91,6 +91,110 @@ pnpm changeset --empty
 
 ## Automated pre-push step
 
-> **Planned.** Phase 3 adds a pre-push step that drafts a changeset with an AI
-> model when the branch changes a published package and has none. This section
-> will document its environment variables, flags and escape hatches.
+When you push a branch that changes a published package and has no changeset,
+the pre-push hook drafts one with an AI model. It runs after format, lint,
+build, knip, typecheck and tests pass.
+
+```
+┌   imcauan  changeset pre-push
+│
+◇  Changes found · @imcauan/logger
+│
+◇  Model · Gemini · gemini-3.8-flash · only provider
+│
+◇  Drafting changeset                                              1.8s
+│
+│  ╭──────────────────────────────────────────────────────────────╮
+│  │ @imcauan/logger                                        patch │
+│  ├──────────────────────────────────────────────────────────────┤
+│  │ Clarify when `traceMixin` adds no trace fields.              │
+│  ╰──────────────────────────────────────────────────────────────╯
+│
+◇  Committed .changeset/spotty-cycles-roll.md
+│
+◇  Pushing again with SKIP_CHANGESET=1 · all checks run once more  20.2s
+│
+└  Pushed. Git reports this push as failed because the second push replaced it; that's expected.
+```
+
+### What it does
+
+1. Compares the branch with `origin/main` (or `main`) and finds the published
+   packages it changed, with the same rules as `changeset status`.
+2. Sends the changed packages, the branch's commit subjects and its diff for
+   those packages (without changelogs and `dist`, cut at 120,000 characters)
+   to the model, and asks for JSON: packages, a bump each, a summary.
+3. Checks the answer: every package exists in the workspace and is published,
+   no package appears twice, every bump is `patch`, `minor` or `major`, and the
+   summary isn't empty. An invalid answer is retried once.
+4. Asks before keeping a `major` bump. Without a terminal it stops instead.
+5. Writes `.changeset/<random-name>.md`, commits it as `chore: add changeset`,
+   and runs `git push` again with `SKIP_CHANGESET=1`, so every check runs
+   once more on the new commit. It never uses `--no-verify`.
+6. Exits with an error so git doesn't push the original refs too. Git then
+   prints "failed to push some refs"; the second push already went through.
+
+Read the drafted changeset like any other: edit or replace it in a follow-up
+commit if the summary isn't right.
+
+### When it skips
+
+It prints one dim line and lets the push continue when:
+
+- the branch already has a changeset;
+- no published package changed (only `tools/` or repo-level files, for
+  example);
+- the branch is a `changeset-release/*` branch (the version PR);
+- `SKIP_CHANGESET=1` is set;
+- the push updates no branch (tags only, or deletions).
+
+### Setup
+
+| Variable                | Default                                                    |                                                                                                           |
+| ----------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `CHANGESET_AI_API_KEY`  | none                                                       | Required. A key for the provider; for Gemini, from [Google AI Studio](https://aistudio.google.com/apikey) |
+| `CHANGESET_AI_BASE_URL` | `https://generativelanguage.googleapis.com/v1beta/openai/` | Any OpenAI-compatible endpoint                                                                            |
+| `CHANGESET_AI_MODEL`    | `gemini-3.8-flash`                                         | The model id at that endpoint                                                                             |
+
+Export them in your shell profile. Without `CHANGESET_AI_API_KEY` the step
+stops the push and tells you what to do.
+
+### Flags
+
+The hook runs the tool without flags. Run it yourself to try a draft or to
+debug:
+
+```bash
+pnpm --filter @tools/changeset start --dry-run
+```
+
+| Flag           | Prompt it replaces          | Effect                                                                        |
+| -------------- | --------------------------- | ----------------------------------------------------------------------------- |
+| `--model <id>` | The model picker            | Uses that provider. Gemini is the only one for now, so the picker never shows |
+| `--yes`        | The major-bump confirmation | Keeps a `major` bump without asking                                           |
+| `--dry-run`    |                             | Prints the changeset; writes and commits nothing                              |
+| `--debug`      |                             | Prints stack traces for unexpected errors                                     |
+
+Prompts read from `/dev/tty`, because the hook's stdin carries git's list of
+refs. In a GUI git client or an agent, where there's no terminal, prompts are
+skipped: the picker takes the default provider, and a `major` bump stops the
+push.
+
+### When it fails
+
+On a network error, a rejected key, a quota or rate limit, or an invalid
+answer after the retry, the step prints what failed and why, and stops the
+push. Then either:
+
+- write the changeset by hand: `pnpm changeset`; or
+- push without one: `SKIP_CHANGESET=1 git push`. CI's `changeset status`
+  still requires a changeset before the PR can merge.
+
+### Adding a provider
+
+Providers are adapters behind the `ChangesetGenerator` port
+([ADR 0006](adr/0006-changeset-generator-port.md)). A provider with an
+OpenAI-compatible endpoint (Groq, OpenRouter, a local server) needs only an
+entry in `tools/changeset/src/generator/providers.ts`; one without needs an
+adapter next to `openai-compatible.adapter.ts`. With more than one provider,
+the picker appears.
