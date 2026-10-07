@@ -156,8 +156,14 @@ It prints one dim line and lets the push continue when:
 | `CHANGESET_AI_BASE_URL` | `https://generativelanguage.googleapis.com/v1beta/openai/` | Any OpenAI-compatible endpoint                                                                            |
 | `CHANGESET_AI_MODEL`    | `gemini-3.8-flash`                                         | The model id at that endpoint                                                                             |
 
-Export them in your shell profile. Without `CHANGESET_AI_API_KEY` the step
-stops the push and tells you what to do.
+Put them in a `.env` file at the repository root (git-ignored), or export
+them in your shell; a value exported in the shell wins. Without
+`CHANGESET_AI_API_KEY` the step stops the push and tells you what to do.
+
+```ini
+# .env
+CHANGESET_AI_API_KEY=your-key
+```
 
 ### Flags
 

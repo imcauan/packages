@@ -22,26 +22,55 @@ function readMessageContent(body: unknown): string | undefined {
   return typeof content === 'string' ? content : undefined;
 }
 
+const MAX_ERROR_MESSAGE = 300;
+
+/** The provider's error message: `{ error: { message } }`, possibly in an array, or the raw text. */
+async function readErrorMessage(response: Response): Promise<string> {
+  const text = (await response.text().catch(() => '')).trim();
+  try {
+    const parsed: unknown = JSON.parse(text);
+    const [body]: unknown[] = Array.isArray(parsed) ? parsed : [parsed];
+    if (
+      isRecord(body) &&
+      isRecord(body.error) &&
+      typeof body.error.message === 'string'
+    ) {
+      return body.error.message;
+    }
+  } catch {
+    // Not JSON: fall back to the raw text.
+  }
+  return text.slice(0, MAX_ERROR_MESSAGE);
+}
+
 function describeHttpFailure(
   status: number,
   label: string,
+  message: string,
 ): { what: string; why: string } {
+  const detail = message ? `HTTP ${status}: ${message}` : `HTTP ${status}.`;
+
   if (status === 401 || status === 403) {
     return {
       what: `${label} rejected the API key`,
-      why: `HTTP ${status}. Check CHANGESET_AI_API_KEY.`,
+      why: `${detail} Check CHANGESET_AI_API_KEY.`,
     };
   }
   if (status === 429) {
     return {
       what: `${label} quota or rate limit reached`,
-      why: 'HTTP 429. Wait a moment, or check your plan.',
+      why: `${detail} Wait a moment, or check your plan.`,
     };
   }
-  return {
-    what: `${label} returned an error`,
-    why: `HTTP ${status}.`,
-  };
+  if (status === 503) {
+    return {
+      what: `${label} is unavailable`,
+      why: message
+        ? detail
+        : `${detail} The model may be overloaded; try again in a moment.`,
+    };
+  }
+  return { what: `${label} returned an error`, why: detail };
 }
 
 /**
@@ -96,7 +125,11 @@ export class OpenAiCompatibleGenerator implements ChangesetGenerator {
 
     if (!response.ok) {
       throw new ChangesetStepError(
-        describeHttpFailure(response.status, provider.label),
+        describeHttpFailure(
+          response.status,
+          provider.label,
+          await readErrorMessage(response),
+        ),
       );
     }
 

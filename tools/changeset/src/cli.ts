@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 import { parseArgs } from 'node:util';
 
 import { OpenAiCompatibleGenerator } from './generator/openai-compatible.adapter.ts';
@@ -60,6 +61,12 @@ async function main(): Promise<number> {
   const cwd = execFileSync('git', ['rev-parse', '--show-toplevel'], {
     encoding: 'utf8',
   }).trim();
+
+  // CHANGESET_AI_* can live in the repository's git-ignored .env. Variables
+  // already set in the shell take precedence.
+  if (existsSync(path.join(cwd, '.env'))) {
+    process.loadEnvFile(path.join(cwd, '.env'));
+  }
   const [remote] = positionals;
   const terminal = openTerminal();
   const output = terminal?.output ?? process.stderr;

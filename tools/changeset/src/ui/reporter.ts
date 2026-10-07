@@ -39,6 +39,7 @@ export class Reporter {
   private readonly theme: Theme;
   private readonly now: () => number;
   readonly width: number;
+  private lastLineWasRail = false;
 
   constructor({
     output,
@@ -172,11 +173,16 @@ export class Reporter {
     };
   }
 
+  /** A rail line, unless the previous line already was one. */
   private rail(): void {
-    this.write(this.theme.dim('│'));
+    if (!this.lastLineWasRail) {
+      this.write(this.theme.dim('│'));
+      this.lastLineWasRail = true;
+    }
   }
 
   private write(line: string): void {
     this.output.write(`${line}\n`);
+    this.lastLineWasRail = false;
   }
 }

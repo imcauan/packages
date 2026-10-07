@@ -139,6 +139,30 @@ describe('OpenAiCompatibleGenerator', () => {
     });
   });
 
+  it('should include the provider error message', async () => {
+    const { sut, fetchStub } = makeSut();
+    fetchStub.mockResolvedValueOnce(
+      Response.json([{ error: { message: 'any-message' } }], { status: 400 }),
+    );
+
+    const promise = sut.generate(input);
+
+    await expect(promise).rejects.toMatchObject({
+      why: 'HTTP 400: any-message',
+    });
+  });
+
+  it('should report an unavailable model', async () => {
+    const { sut, fetchStub } = makeSut();
+    fetchStub.mockResolvedValueOnce(new Response('', { status: 503 }));
+
+    const promise = sut.generate(input);
+
+    await expect(promise).rejects.toMatchObject({
+      what: 'Gemini is unavailable',
+    });
+  });
+
   it('should report any other HTTP error', async () => {
     const { sut, fetchStub } = makeSut();
     fetchStub.mockResolvedValueOnce(new Response('', { status: 500 }));

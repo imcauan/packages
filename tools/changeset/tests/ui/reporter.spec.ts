@@ -75,4 +75,16 @@ describe('Reporter', () => {
       ].join('\n'),
     );
   });
+
+  it('should not draw two rail lines in a row', async () => {
+    const { sut, output } = makeSut();
+    const failing = sut.task('any-label', async () => {
+      throw new Error('any-message');
+    });
+    await failing.catch(() => {});
+
+    sut.error({ what: 'any-what', why: 'any-why', next: [] });
+
+    expect(output.text.startsWith('│\n■  any-what')).toBe(true);
+  });
 });
