@@ -1,4 +1,4 @@
-import { vi, type Mocked } from 'vitest';
+import type { Mocked } from 'vitest';
 
 import type { RunDependencies } from '../../src/run.ts';
 

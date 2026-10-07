@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { validateDraft, type KnownPackages } from '../src/validate.ts';
 
 const known: KnownPackages = {

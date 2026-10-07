@@ -1,4 +1,4 @@
-import { vi, type Mocked } from 'vitest';
+import type { Mocked } from 'vitest';
 
 import type { GetUserFeature } from './user-feature.fixtures';
 

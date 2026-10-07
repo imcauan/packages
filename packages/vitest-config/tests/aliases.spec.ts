@@ -1,7 +1,5 @@
 import path from 'node:path';
 
-import { describe, expect, it } from 'vitest';
-
 import { resolveWorkspaceAliases } from '../src';
 
 const makeSut = (): typeof resolveWorkspaceAliases => resolveWorkspaceAliases;

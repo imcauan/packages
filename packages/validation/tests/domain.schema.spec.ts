@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { v } from '../src';
 
 const makeSut = (): typeof v => v;

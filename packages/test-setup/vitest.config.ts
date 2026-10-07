@@ -4,6 +4,7 @@ import { defineConfig } from 'vitest/config';
 // be used here (docs/TESTING.md#bootstrapping).
 export default defineConfig({
   test: {
+    globals: true,
     environment: 'node',
     include: ['tests/**/*.{spec,test}.ts'],
   },

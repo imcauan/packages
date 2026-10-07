@@ -1,5 +1,3 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
-
 import { ValidationError, v, type Infer } from '../src';
 
 const makeSut = (): typeof v => v;

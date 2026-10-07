@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { v } from '@imcauan/validation';
 import { Test } from '@nestjs/testing';
-import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type { IEnvironment, MergedEnvironment } from '../../src';
 import { Environment, EnvironmentGatewayModule } from '../../src/nestjs';

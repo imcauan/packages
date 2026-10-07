@@ -7,7 +7,7 @@
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
     "lib": ["es2024"],
-    "types": ["node"]
+    "types": ["node", "vitest/globals", "vitest/importMeta"]
   },
   "include": ["src", "tests", "*.config.ts"]
 }

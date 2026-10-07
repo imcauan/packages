@@ -4,8 +4,6 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-
 import packageJson from '../package.json' with { type: 'json' };
 
 const run = promisify(execFile);

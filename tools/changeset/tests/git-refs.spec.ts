@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { parsePushRefs } from '../src/git.ts';
 
 const sha = (char: string) => char.repeat(40);

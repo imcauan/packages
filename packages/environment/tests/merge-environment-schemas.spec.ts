@@ -1,5 +1,4 @@
 import { ValidationError, v } from '@imcauan/validation';
-import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import { mergeEnvironmentSchemas } from '../src';
 

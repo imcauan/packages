@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { Reporter } from '../../src/ui/reporter.ts';
 import { createTheme } from '../../src/ui/theme.ts';
 import { MemoryOutput } from '../mocks/memory-output.ts';

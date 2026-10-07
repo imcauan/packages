@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { buildMessages } from '../../src/generator/prompt.ts';
 
 const makeSut = (): typeof buildMessages => buildMessages;

@@ -1,4 +1,4 @@
-import { vi, type Mocked } from 'vitest';
+import type { Mocked } from 'vitest';
 
 import type { ChangesetGenerator } from '../../src/generator/changeset-generator.port.ts';
 

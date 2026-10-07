@@ -1,5 +1,4 @@
 import { v } from '@imcauan/validation';
-import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import { createTypedEnv } from '../src';
 

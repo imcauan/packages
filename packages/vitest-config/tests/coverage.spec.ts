@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { commonCoverageExcludes } from '../src';
 
 const makeSut = (): readonly string[] => commonCoverageExcludes;

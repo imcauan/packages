@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import type { DynamicModule, ValueProvider } from '@nestjs/common';
 import { PARAMS_PROVIDER_TOKEN, type Params } from 'nestjs-pino';
-import { describe, expect, it } from 'vitest';
 
 import { traceMixin, type LoggerConfig } from '../../src';
 import { LoggerModule } from '../../src/nestjs';

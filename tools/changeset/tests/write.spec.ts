@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { renderChangeset } from '../src/write.ts';
 
 const makeSut = (): typeof renderChangeset => renderChangeset;

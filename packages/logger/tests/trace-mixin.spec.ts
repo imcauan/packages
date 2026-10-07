@@ -1,5 +1,4 @@
 import { trace, type Span } from '@opentelemetry/api';
-import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { traceMixin } from '../src';
 

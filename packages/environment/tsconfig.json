@@ -5,7 +5,7 @@
     "noEmit": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "types": ["node"]
+    "types": ["node", "vitest/globals", "vitest/importMeta"]
   },
   "include": ["src", "tests", "*.config.ts"]
 }

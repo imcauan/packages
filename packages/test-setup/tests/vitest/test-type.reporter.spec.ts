@@ -1,4 +1,3 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DefaultReporter, type TestCase, type TestModule } from 'vitest/node';
 
 import {

@@ -1,5 +1,3 @@
-import { describe, expect, it, vi } from 'vitest';
-
 import { ContainerEvent, type ContainerHooks } from '../src';
 import { FakeContainer } from './mocks/fake-container';
 

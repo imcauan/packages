@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { Test, type TestingModule } from '@nestjs/testing';
 import { Logger as PinoLogger } from 'nestjs-pino';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { Logger, LoggerModule } from '../../src/nestjs';
 

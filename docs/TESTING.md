@@ -42,6 +42,10 @@ The reporter labels each file `unit` or `integration` from its suffix.
 
 ### General rules
 
+- **Vitest globals, no value imports.** `describe`, `it`, `expect`, `vi` and the
+  hooks are globals: every `tsconfig.json` lists `vitest/globals` and
+  `vitest/importMeta` in `types`, and every Vitest config sets `globals: true`.
+  Import only types from `vitest` (`import type { Mocked } from 'vitest'`).
 - **Test first.** New behavior starts with a failing test.
 - **One behavior per `it`.** Never assert two unrelated outcomes in one test.
 - **Names describe the observable outcome**, prefixed with `should`:
@@ -122,7 +126,7 @@ describe('WelcomeService', () => {
 
   ```ts
   // tests/mocks/mailer.stub.ts
-  import { vi, type Mocked } from 'vitest';
+  import type { Mocked } from 'vitest';
 
   import type { Mailer } from '../../src';
 

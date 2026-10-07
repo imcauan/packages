@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import { renderChangesetBox } from '../../src/ui/changeset-box.ts';
 import { createTheme } from '../../src/ui/theme.ts';
 

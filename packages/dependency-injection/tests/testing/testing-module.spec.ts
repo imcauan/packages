@@ -1,5 +1,3 @@
-import { describe, expect, expectTypeOf, it, vi } from 'vitest';
-
 import {
   CircularModuleError,
   DuplicateProviderError,

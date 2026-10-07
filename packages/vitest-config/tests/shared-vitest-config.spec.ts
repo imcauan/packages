@@ -1,7 +1,6 @@
 import path from 'node:path';
 
 import { TestTypeReporter } from '@imcauan/test-setup/vitest';
-import { describe, expect, it } from 'vitest';
 
 import { defineSharedVitestConfig, unitIntegrationTestTypes } from '../src';
 

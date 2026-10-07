@@ -1,8 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-
 import { Git, type PushRef } from '../src/git.ts';
 import { TempRepository } from './mocks/temp-repository.ts';
 
