@@ -60,7 +60,7 @@ feature, and merges their output. Every schema runs, so one invalid variable
 doesn't hide the others; all issues are reported in one `ValidationError`.
 
 ```ts
-const validate = mergeEnvironmentSchemas<AppEnvironment>([
+const validate = mergeEnvironmentSchemas([
   v.object({ PORT: v.env.port(3000) }),
   v.object({
     DATABASE_URL: v.string({ requiredError: 'database_url_required' }),
@@ -68,35 +68,37 @@ const validate = mergeEnvironmentSchemas<AppEnvironment>([
 ]);
 
 const environment = validate(process.env);
+// { PORT: number } & { DATABASE_URL: string }
 ```
+
+The result type is inferred from the schemas, so it can't claim a variable no
+schema validates. Name it with `MergedEnvironment<typeof schemas>`.
 
 ## Integrations
 
 ### NestJS
 
 `EnvironmentGatewayModule.register()` sets up `ConfigModule.forRoot()` with a
-validator built from your schemas, and binds an `IEnvironment` to the
-`Environment` token:
+validator built from your schemas, and binds an `IEnvironment` over the
+validated values to the `Environment` token:
 
 ```ts
 import { Module } from '@nestjs/common';
+import type { MergedEnvironment } from '@imcauan/environment';
 import { EnvironmentGatewayModule } from '@imcauan/environment/nestjs';
 import { v } from '@imcauan/validation';
 
-type AppEnvironment = { PORT: number; DATABASE_URL: string };
+const schemas = [
+  v.object({ PORT: v.env.port(3000) }),
+  v.object({
+    DATABASE_URL: v.string({ requiredError: 'database_url_required' }),
+  }),
+];
+
+export type AppEnvironment = MergedEnvironment<typeof schemas>;
 
 @Module({
-  imports: [
-    EnvironmentGatewayModule.register<AppEnvironment>({
-      isGlobal: true,
-      schemas: [
-        v.object({ PORT: v.env.port(3000) }),
-        v.object({
-          DATABASE_URL: v.string({ requiredError: 'database_url_required' }),
-        }),
-      ],
-    }),
-  ],
+  imports: [EnvironmentGatewayModule.register({ isGlobal: true, schemas })],
 })
 export class AppModule {}
 ```
@@ -126,8 +128,8 @@ export class DatabaseConfig {
 - An invalid environment fails the app at bootstrap with every issue listed.
   `@nestjs/config` 12 validates asynchronously, so the error surfaces when
   Nest initializes the module, not when `register()` is called.
-- `NestJsEnvironmentAdapter` is the `IEnvironment` implementation over
-  `ConfigService`, exported for custom wiring.
+- `Environment` serves the validated values themselves, typed by your
+  schemas: `get({ env: 'PORT' })` returns a `number`, not the raw string.
 
 ## API
 
@@ -135,13 +137,12 @@ export class DatabaseConfig {
 
 - `createTypedEnv(options)`, `CreateTypedEnvOptions`, `TypedEnv`
 - `IEnvironment<Schema>`
-- `mergeEnvironmentSchemas(schemas)`
+- `mergeEnvironmentSchemas(schemas)`, `MergedEnvironment<typeof schemas>`
 
 `@imcauan/environment/nestjs`
 
 - `EnvironmentGatewayModule.register(options)`, `EnvironmentModuleOptions`
 - `Environment`: the injection token.
-- `NestJsEnvironmentAdapter`
 
 ## Design notes
 

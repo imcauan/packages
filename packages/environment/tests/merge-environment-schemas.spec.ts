@@ -1,17 +1,14 @@
 import { ValidationError, v } from '@imcauan/validation';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import { mergeEnvironmentSchemas } from '../src';
-
-type Environment = { PORT: number; NAME: string };
 
 const PortSchema = v.object({ PORT: v.env.port(3000) });
 const NameSchema = v.object({
   NAME: v.string({ requiredError: 'any-required' }),
 });
 
-const makeSut = (): ((input: unknown) => Environment) =>
-  mergeEnvironmentSchemas<Environment>([PortSchema, NameSchema]);
+const makeSut = () => mergeEnvironmentSchemas([PortSchema, NameSchema]);
 
 describe('mergeEnvironmentSchemas', () => {
   it('should merge the output of every schema', () => {
@@ -20,6 +17,16 @@ describe('mergeEnvironmentSchemas', () => {
     const environment = sut({ NAME: 'any-name' });
 
     expect(environment).toEqual({ PORT: 3000, NAME: 'any-name' });
+  });
+
+  it('should type the result as the combination of every schema', () => {
+    const sut = makeSut();
+
+    const environment = sut({ NAME: 'any-name' });
+
+    expectTypeOf(environment).toEqualTypeOf<
+      { PORT: number } & { NAME: string } & object
+    >();
   });
 
   it('should throw a ValidationError when a schema fails', () => {

@@ -4,19 +4,18 @@ import { v } from '@imcauan/validation';
 import { Test } from '@nestjs/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import type { IEnvironment } from '../../src';
+import type { IEnvironment, MergedEnvironment } from '../../src';
 import { Environment, EnvironmentGatewayModule } from '../../src/nestjs';
 
-type AppEnvironment = { APP_PORT: number; APP_NAME: string };
+const schemas = [
+  v.object({ APP_PORT: v.env.port(3000) }),
+  v.object({ APP_NAME: v.string({ requiredError: 'any-required' }) }),
+];
+
+type AppEnvironment = MergedEnvironment<typeof schemas>;
 
 const register = () =>
-  EnvironmentGatewayModule.register<AppEnvironment>({
-    ignoreEnvFile: true,
-    schemas: [
-      v.object({ APP_PORT: v.env.port(3000) }),
-      v.object({ APP_NAME: v.string({ requiredError: 'any-required' }) }),
-    ],
-  });
+  EnvironmentGatewayModule.register({ ignoreEnvFile: true, schemas });
 
 describe('EnvironmentGatewayModule (NestJS)', () => {
   afterEach(() => {

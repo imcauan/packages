@@ -3,6 +3,6 @@
  * (`get({ env: K }): Schema[K]`); only the concrete `Schema` (field list,
  * secrets) belongs to the app.
  */
-export interface IEnvironment<Schema extends Record<string, unknown>> {
+export interface IEnvironment<Schema extends object> {
   get<K extends keyof Schema>(params: { env: K }): Schema[K];
 }
