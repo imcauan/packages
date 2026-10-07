@@ -11,6 +11,7 @@ packages/<name>/
 │   ├── index.ts
 │   └── nestjs/logger.module.ts
 └── tests/
+    ├── mocks/                       # typed stubs, one file per dependency
     ├── trace-mixin.spec.ts          # unit
     └── nestjs/
         └── logger.module.spec.ts    # unit, mirrors src/nestjs/
@@ -36,6 +37,121 @@ The reporter labels each file `unit` or `integration` from its suffix.
   (`Infer<typeof schema>`), assert it with `expectTypeOf`.
 - **No names from real apps** in fixtures. Use neutral ones (`my-service`,
   `APP_NAME`).
+
+## Writing tests
+
+### General rules
+
+- **Test first.** New behavior starts with a failing test.
+- **One behavior per `it`.** Never assert two unrelated outcomes in one test.
+- **Names describe the observable outcome**, prefixed with `should`:
+  `it('should return the merged environment')`. Interactions use
+  `should call <dependency> with correct values`.
+- **`describe` groups by method or scenario**, not by file structure.
+- **Arrange, act, assert**, separated by a blank line.
+- **Never call the SUT inside `expect()`.** Assign the result (or the promise)
+  first:
+
+  ```ts
+  const result = await sut.execute(params);
+  expect(result).toEqual({ sent: true });
+
+  const promise = sut.execute(params);
+  await expect(promise).rejects.toThrow(MailerError);
+  ```
+
+### Unit specs: `makeSut()`
+
+Every unit spec builds its system under test (SUT) through a `makeSut()`
+factory, called inside each `it`. Nothing mutable (stubs, spies, state) is
+shared at `describe` scope.
+
+```ts
+// tests/welcome-service.spec.ts
+import type { Mocked } from 'vitest';
+
+import { MailerError, WelcomeService, type Mailer } from '../src';
+import { makeMailerStub } from './mocks/mailer.stub';
+
+type SutTypes = {
+  sut: WelcomeService;
+  mailerStub: Mocked<Mailer>;
+};
+
+const makeSut = (): SutTypes => {
+  const mailerStub = makeMailerStub();
+  const sut = new WelcomeService(mailerStub);
+
+  return { sut, mailerStub };
+};
+
+describe('WelcomeService', () => {
+  describe('welcome', () => {
+    it('should call mailer.send with correct values', async () => {
+      const { sut, mailerStub } = makeSut();
+
+      await sut.welcome({ email: 'user@example.com' });
+
+      expect(mailerStub.send).toHaveBeenCalledWith({
+        to: 'user@example.com',
+        subject: 'Welcome',
+      });
+    });
+
+    it('should throw when the mailer fails', async () => {
+      const { sut, mailerStub } = makeSut();
+      mailerStub.send.mockRejectedValueOnce(new MailerError('unavailable'));
+
+      const promise = sut.welcome({ email: 'user@example.com' });
+
+      await expect(promise).rejects.toThrow(MailerError);
+      await expect(promise).rejects.toMatchObject({ message: 'unavailable' });
+    });
+  });
+});
+```
+
+- **`SutTypes`.** A `makeSut()` that returns a fixture object declares a named
+  `SutTypes` type and uses it as its explicit return type; an async factory
+  returns `Promise<SutTypes>`. A factory that returns only the SUT may use the
+  SUT's own type instead.
+- **Typed stubs, not inline mocks.** Each injected dependency has a
+  `make<Dependency>Stub()` factory in `tests/mocks/` that returns Vitest's
+  `Mocked<Dependency>`. Specs never assemble dependencies from inline
+  `vi.fn()` objects.
+
+  ```ts
+  // tests/mocks/mailer.stub.ts
+  import { vi, type Mocked } from 'vitest';
+
+  import type { Mailer } from '../../src';
+
+  export const makeMailerStub = (): Mocked<Mailer> => ({
+    send: vi.fn().mockResolvedValue(undefined),
+  });
+  ```
+
+- **Happy path by default, `Once` for overrides.** Stubs and `makeSut()`
+  configure the happy path with `mockResolvedValue` / `mockReturnValue`. A
+  test that needs different behavior overrides it with the `Once` variant
+  (`mockResolvedValueOnce`, `mockRejectedValueOnce`).
+- **Literal values in call assertions.** Assertions on the arguments a
+  dependency received use raw literals, not variables, unless the value is
+  truly dynamic (a generated id, a timestamp).
+- **Error class and properties together.** Capture the promise once and chain
+  two `rejects` matchers on it, as in the example above.
+- **Realistic fixtures.** Fixture defaults are valid, realistic values. Use a
+  specific literal only when the assertion depends on that exact value.
+
+### Integration tests
+
+- Real resources (a temporary directory, a git repository, a container) are
+  created fresh in `beforeEach` and torn down in `afterEach`, so no state
+  leaks between tests. The SUT is rebuilt in `beforeEach`; there's no
+  `makeSut()` wrapper.
+- Assert observable behavior (returned values, files on disk, repository
+  state, thrown errors), not implementation details.
+- Each `it` covers exactly one outcome.
 
 ## How `test-setup` and `vitest-config` are used here
 
