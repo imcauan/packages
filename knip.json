@@ -11,6 +11,11 @@
     "packages/typescript-config": {
       "entry": ["tests/**/*.test.ts"],
       "project": ["tests/**/*.ts", "*.config.ts"]
+    },
+    "packages/logger": {
+      "entry": ["tests/**/*.{spec,test}.{ts,tsx}"],
+      "project": ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}", "*.config.ts"],
+      "ignoreDependencies": ["pino-loki", "pino-pretty"]
     }
   }
 }
