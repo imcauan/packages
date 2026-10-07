@@ -1,6 +1,9 @@
 # Runs before every push. Never bypass it with --no-verify (CONSTITUTION.md).
 set -e
 
+# git passes the refs being pushed on stdin; keep them for the changeset step.
+PUSH_REFS=$(cat)
+
 pnpm format
 pnpm lint
 pnpm knip
@@ -8,6 +11,7 @@ pnpm build      # typecheck and tests read sibling packages from dist
 pnpm typecheck
 pnpm test
 
-# ── Changeset step (planned, phase 3) ───────────────────────────────────────
+# ── Changeset step ──────────────────────────────────────────────────────────
 # Drafts and commits a changeset when this branch changes a published package
 # without one, then pushes again. See docs/CHANGESET.md#automated-pre-push-step.
+printf '%s\n' "$PUSH_REFS" | node tools/changeset/src/cli.ts "$@"
