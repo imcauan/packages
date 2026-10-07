@@ -14,15 +14,15 @@ production app and are published as ESM with type declarations under
 
 ## Packages
 
-| Package | What it does | Integrations |
-| --- | --- | --- |
-| [`@imcauan/validation`](packages/validation) | Schema validation with type inference and Standard Schema support | |
-| [`@imcauan/environment`](packages/environment) | Typed, validated environment variables | `/nestjs` |
-| [`@imcauan/dependency-injection`](packages/dependency-injection) | Token-based dependency injection without reflection | `/react`, `/testing` |
-| [`@imcauan/logger`](packages/logger) | Structured logging with OpenTelemetry trace correlation | `/nestjs` |
-| [`@imcauan/test-setup`](packages/test-setup) | Test helpers: container lifecycle, test-type reporter | `/vitest` |
-| [`@imcauan/vitest-config`](packages/vitest-config) | Shared Vitest config and presets | |
-| [`@imcauan/typescript-config`](packages/typescript-config) | Shared `tsconfig` bases | |
+| Package                                                          | What it does                                                      | Integrations         |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------- | -------------------- |
+| [`@imcauan/validation`](packages/validation)                     | Schema validation with type inference and Standard Schema support |                      |
+| [`@imcauan/environment`](packages/environment)                   | Typed, validated environment variables                            | `/nestjs`            |
+| [`@imcauan/dependency-injection`](packages/dependency-injection) | Token-based dependency injection without reflection               | `/react`, `/testing` |
+| [`@imcauan/logger`](packages/logger)                             | Structured logging with OpenTelemetry trace correlation           | `/nestjs`            |
+| [`@imcauan/test-setup`](packages/test-setup)                     | Test helpers: container lifecycle, test-type reporter             | `/vitest`            |
+| [`@imcauan/vitest-config`](packages/vitest-config)               | Shared Vitest config and presets                                  |                      |
+| [`@imcauan/typescript-config`](packages/typescript-config)       | Shared `tsconfig` bases                                           |                      |
 
 All packages are on `0.x`: a `minor` release may contain breaking changes
 ([bump rules](docs/CHANGESET.md#bump-rules-while-on-0x)).

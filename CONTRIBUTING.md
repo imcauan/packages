@@ -17,16 +17,16 @@ pnpm build             # tests and type checks read sibling packages from dist
 
 ## Commands
 
-| Command | What it does |
-| --- | --- |
-| `pnpm build` | Builds every package, in dependency order |
-| `pnpm typecheck` | Type checks every package |
-| `pnpm test` | Runs every package's tests |
-| `pnpm lint` / `pnpm lint:fix` | oxlint with type-aware rules |
-| `pnpm format` / `pnpm format:fix` | Checks / applies oxfmt formatting |
-| `pnpm knip` | Finds unused files, exports and dependencies |
-| `pnpm changeset` | Writes a changeset ([docs/CHANGESET.md](docs/CHANGESET.md)) |
-| `pnpm --filter @imcauan/<name> <script>` | Runs a script in one package |
+| Command                                  | What it does                                                |
+| ---------------------------------------- | ----------------------------------------------------------- |
+| `pnpm build`                             | Builds every package, in dependency order                   |
+| `pnpm typecheck`                         | Type checks every package                                   |
+| `pnpm test`                              | Runs every package's tests                                  |
+| `pnpm lint` / `pnpm lint:fix`            | oxlint with type-aware rules                                |
+| `pnpm format` / `pnpm format:fix`        | Checks / applies oxfmt formatting                           |
+| `pnpm knip`                              | Finds unused files, exports and dependencies                |
+| `pnpm changeset`                         | Writes a changeset ([docs/CHANGESET.md](docs/CHANGESET.md)) |
+| `pnpm --filter @imcauan/<name> <script>` | Runs a script in one package                                |
 
 ## Branch → PR → release
 
@@ -68,11 +68,11 @@ commitlint with `@commitlint/config-conventional`:
 To try an unreleased change in another project (for example, Worksy), pick one
 of three ways:
 
-| Way | Best for | Catch |
-| --- | --- | --- |
-| Link | Fast iteration on your machine | Can load two copies of a framework |
-| Tarball | Checking exactly what would be published | Rebuild and reinstall per change |
-| Snapshot | Another project's CI or deploy | Needs a pushed branch with a changeset |
+| Way      | Best for                                 | Catch                                  |
+| -------- | ---------------------------------------- | -------------------------------------- |
+| Link     | Fast iteration on your machine           | Can load two copies of a framework     |
+| Tarball  | Checking exactly what would be published | Rebuild and reinstall per change       |
+| Snapshot | Another project's CI or deploy           | Needs a pushed branch with a changeset |
 
 ### Link
 

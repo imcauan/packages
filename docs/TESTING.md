@@ -16,9 +16,9 @@ packages/<name>/
         └── logger.module.spec.ts    # unit, mirrors src/nestjs/
 ```
 
-| Suffix | Kind | What it may touch |
-| --- | --- | --- |
-| `*.spec.ts(x)` | Unit | Code in memory. Collaborators are fakes or mocks. |
+| Suffix         | Kind        | What it may touch                                                         |
+| -------------- | ----------- | ------------------------------------------------------------------------- |
+| `*.spec.ts(x)` | Unit        | Code in memory. Collaborators are fakes or mocks.                         |
 | `*.test.ts(x)` | Integration | Real I/O: the filesystem, a git repository, a child process, a container. |
 
 The reporter labels each file `unit` or `integration` from its suffix.
@@ -32,8 +32,8 @@ The reporter labels each file `unit` or `integration` from its suffix.
 - **Integrations** get a test that wires them into their framework for real
   (for example, compiling a NestJS testing module), not only unit tests of
   their parts.
-- **Types are API too.** When inference is the feature (`Infer<typeof
-  schema>`), assert it with `expectTypeOf`.
+- **Types are API too.** When inference is the feature
+  (`Infer<typeof schema>`), assert it with `expectTypeOf`.
 - **No names from real apps** in fixtures. Use neutral ones (`my-service`,
   `APP_NAME`).
 

@@ -86,12 +86,12 @@ an integration folder; integrations import from the core.
 
 ### Dependencies
 
-| Kind | Use for | Version |
-| --- | --- | --- |
-| `dependencies` | Code the core imports at runtime, owned by this package | `^x.y.z`; `workspace:^` for packages in this repo |
-| `peerDependencies` | Frameworks and libraries the consumer must share one copy of (NestJS, React, Vitest, `@opentelemetry/api`) | A range (`^12.0.0`, `^18.2.0 \|\| ^19.0.0`), never exact or `catalog:` |
-| `peerDependenciesMeta.<name>.optional` | Every peer used only by an integration subpath | `true` |
-| `devDependencies` | Build, test and type-only tooling | `catalog:` where the catalog has it, otherwise exact |
+| Kind                                   | Use for                                                                                                    | Version                                                                |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `dependencies`                         | Code the core imports at runtime, owned by this package                                                    | `^x.y.z`; `workspace:^` for packages in this repo                      |
+| `peerDependencies`                     | Frameworks and libraries the consumer must share one copy of (NestJS, React, Vitest, `@opentelemetry/api`) | A range (`^12.0.0`, `^18.2.0 \|\| ^19.0.0`), never exact or `catalog:` |
+| `peerDependenciesMeta.<name>.optional` | Every peer used only by an integration subpath                                                             | `true`                                                                 |
+| `devDependencies`                      | Build, test and type-only tooling                                                                          | `catalog:` where the catalog has it, otherwise exact                   |
 
 - **Declare what you import, and nothing else.** `knip` reports unused and
   unlisted dependencies. Before removing one, check it isn't needed at runtime
@@ -123,12 +123,12 @@ export default defineConfig({
 
 ## Core vs integration subpaths
 
-| | Core (`.`) | Integration (`./<framework>`) |
-| --- | --- | --- |
-| Imports | Only its own code, `dependencies` and required peers | The core, plus its framework |
-| Contains | Ports (interfaces, types, tokens), framework-free logic, pure helpers | Adapters, modules, hooks, decorators for one framework |
-| Peers | Required | Optional |
-| Example | `@imcauan/environment`: `createTypedEnv`, the `IEnvironment` port | `@imcauan/environment/nestjs`: `EnvironmentGatewayModule`, `NestJsEnvironmentAdapter` |
+|          | Core (`.`)                                                            | Integration (`./<framework>`)                                                         |
+| -------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Imports  | Only its own code, `dependencies` and required peers                  | The core, plus its framework                                                          |
+| Contains | Ports (interfaces, types, tokens), framework-free logic, pure helpers | Adapters, modules, hooks, decorators for one framework                                |
+| Peers    | Required                                                              | Optional                                                                              |
+| Example  | `@imcauan/environment`: `createTypedEnv`, the `IEnvironment` port     | `@imcauan/environment/nestjs`: `EnvironmentGatewayModule`, `NestJsEnvironmentAdapter` |
 
 If a symbol could live in either, it belongs in the core. A subpath name names
 the framework (`nestjs`, `react`, `vitest`), or a purpose that isn't

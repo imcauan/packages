@@ -35,11 +35,11 @@ when a published package changed and the branch has no changeset.
 All packages are on `0.x` until their API is stable (rule 6). On `0.x`, semver
 shifts down one level:
 
-| Bump | Use for | Example |
-| --- | --- | --- |
-| `patch` | Bug fixes, docs, internal refactors, new things that don't change existing behavior | `0.3.1` → `0.3.2` |
+| Bump    | Use for                                                                                                            | Example           |
+| ------- | ------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| `patch` | Bug fixes, docs, internal refactors, new things that don't change existing behavior                                | `0.3.1` → `0.3.2` |
 | `minor` | Anything that may break a consumer: removed or renamed exports, changed signatures or defaults, raised peer ranges | `0.3.1` → `0.4.0` |
-| `major` | Declaring the API stable. Never part of a normal change | `0.4.0` → `1.0.0` |
+| `major` | Declaring the API stable. Never part of a normal change                                                            | `0.4.0` → `1.0.0` |
 
 When in doubt between `patch` and `minor`, pick `minor`. A `^0.3.1` range only
 accepts `0.3.x`, so a `minor` bump never reaches a consumer by surprise.
