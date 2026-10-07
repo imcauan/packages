@@ -1,0 +1,68 @@
+{
+  "name": "@imcauan/dependency-injection",
+  "version": "0.1.0",
+  "description": "Token-based dependency injection with modules, lazy providers and a testing API, without reflection.",
+  "homepage": "https://github.com/imcauan/packages/tree/main/packages/dependency-injection#readme",
+  "bugs": "https://github.com/imcauan/packages/issues",
+  "license": "MIT",
+  "author": "Cauan Diniz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imcauan/packages.git",
+    "directory": "packages/dependency-injection"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.mts",
+      "default": "./dist/react/index.mjs"
+    },
+    "./testing": {
+      "types": "./dist/testing/index.d.mts",
+      "default": "./dist/testing/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@imcauan/typescript-config": "workspace:*",
+    "@imcauan/vitest-config": "workspace:*",
+    "@testing-library/react": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "jsdom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}

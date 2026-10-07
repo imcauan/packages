@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@imcauan/typescript-config/react-library.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "types": ["node"]
+  },
+  "include": ["src", "tests", "*.config.ts"]
+}

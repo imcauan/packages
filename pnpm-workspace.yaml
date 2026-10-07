@@ -5,7 +5,12 @@ packages:
 # Dev tool versions only. Peer dependencies are written as ranges in each
 # package.json, never as catalog: (it publishes the exact version).
 catalog:
+  '@testing-library/react': 16.3.3
   '@types/node': 25.1.0
+  '@types/react': 19.3.0
+  jsdom: 30.0.1
+  react: 19.3.0
+  react-dom: 19.3.0
   tsdown: 0.23.0
   typescript: 6.0.3
   vitest: 5.0.0
