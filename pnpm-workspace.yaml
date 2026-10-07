@@ -1,0 +1,9 @@
+packages:
+  - 'packages/*'
+  - 'tools/*'
+
+# Dev tool versions only. Peer dependencies are written as ranges in each
+# package.json, never as catalog: (it publishes the exact version).
+catalog:
+  '@types/node': 25.1.0
+  typescript: 6.0.3
