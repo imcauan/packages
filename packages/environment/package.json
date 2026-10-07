@@ -12,7 +12,8 @@
     "directory": "packages/environment"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "type": "module",
   "sideEffects": false,

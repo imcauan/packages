@@ -12,7 +12,8 @@
     "directory": "packages/logger"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "type": "module",
   "sideEffects": false,

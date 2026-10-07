@@ -12,7 +12,8 @@
     "directory": "packages/dependency-injection"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "type": "module",
   "sideEffects": false,

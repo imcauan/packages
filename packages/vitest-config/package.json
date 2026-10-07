@@ -12,7 +12,8 @@
     "directory": "packages/vitest-config"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "type": "module",
   "sideEffects": false,

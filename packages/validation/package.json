@@ -12,7 +12,8 @@
     "directory": "packages/validation"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "type": "module",
   "sideEffects": false,

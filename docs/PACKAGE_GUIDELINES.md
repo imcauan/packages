@@ -54,7 +54,7 @@ an integration folder; integrations import from the core.
     },
     "./package.json": "./package.json",
   },
-  "files": ["dist"],
+  "files": ["dist", "src"],
   "engines": { "node": ">=20.19" },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
@@ -81,6 +81,9 @@ an integration folder; integrations import from the core.
 - **One entry per subpath**, mapped to `dist/<subpath>/index.mjs`. No wildcards
   (`"./*"`) and no paths into internal files.
 - **`./package.json`** is exported so tools can read the version.
+- **`files` includes `src`**, but nothing exports it. The build's source maps
+  and declaration maps point into `src`, so a consumer's "Go to definition"
+  opens the TypeScript source instead of the bundle.
 - `repository` is required: GitHub Packages uses it to link the package to this
   repository.
 

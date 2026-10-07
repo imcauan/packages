@@ -12,7 +12,8 @@
     "directory": "packages/test-setup"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "type": "module",
   "sideEffects": false,
