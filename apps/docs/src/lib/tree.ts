@@ -69,7 +69,10 @@ export function buildTree(
   const present = (page: TreePage | undefined): page is TreePage =>
     page !== undefined;
 
+  // Fumadocs matches tabs to their folders by `$id`; without one, every
+  // folder matches the first tab and the switcher shows the wrong options.
   const tab = (id: TabId, children: Node[], index?: TreePage): Folder => ({
+    $id: id,
     type: 'folder',
     root: true,
     ...TABS[id],

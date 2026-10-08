@@ -39,6 +39,19 @@ describe('buildTree', () => {
     ]);
   });
 
+  it('should give each tab a distinct id, so the switcher can tell them apart', () => {
+    const sut = makeSut();
+
+    const tree = sut(pages);
+
+    expect(tabs(tree).map(tab => tab.$id)).toEqual([
+      'overview',
+      'packages',
+      'guides',
+      'decisions',
+    ]);
+  });
+
   it('should open the Overview tab on the home page', () => {
     const sut = makeSut();
 
