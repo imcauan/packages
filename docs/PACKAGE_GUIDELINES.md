@@ -137,6 +137,11 @@ If a symbol could live in either, it belongs in the core. A subpath name names
 the framework (`nestjs`, `react`, `vitest`), or a purpose that isn't
 production code (`testing`).
 
+A subpath may also be a side-effect entry: importing it does the work, as
+`@imcauan/tracing/register` starts tracing. List its built file in
+`sideEffects` so bundlers keep it, and keep the logic in the core, so the
+entry only calls it.
+
 ## Tests
 
 See [TESTING.md](TESTING.md). In short: `tests/` mirrors `src/`, unit tests are
