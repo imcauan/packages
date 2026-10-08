@@ -6,3 +6,9 @@ coverage
 .env*
 !.env.example
 .DS_Store
+
+# docs site (apps/docs)
+.next
+out
+.source
+next-env.d.ts

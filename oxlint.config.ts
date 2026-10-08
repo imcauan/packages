@@ -212,6 +212,8 @@ export default defineConfig({
     '**/node_modules/',
     '**/dist/',
     '**/coverage/',
+    '**/.next/',
+    '**/out/',
     '**/*.d.ts',
     '**/*.d.mts',
   ],
