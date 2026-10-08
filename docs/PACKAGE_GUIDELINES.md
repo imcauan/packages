@@ -174,5 +174,8 @@ of a real app.
 - [ ] Every public export has a test; `pnpm build && pnpm test` pass.
 - [ ] README follows the structure above.
 - [ ] Add the package to the table in the root [README](../README.md).
+- [ ] Check it on the docs site (`pnpm docs:dev`). The README appears there
+      automatically, and every relative link must resolve, or the site build
+      fails.
 - [ ] Add a changeset only if the package already exists on the registry. A
       new package is published at its initial `0.1.0` without one.

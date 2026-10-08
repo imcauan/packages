@@ -30,9 +30,11 @@ pnpm changeset                  # when a published package changed
 - `packages/<name>/`: published packages. `src/index.ts` is the
   framework-free core; `src/<framework>/` holds integration subpaths.
 - `tools/`: private repo tooling, never published.
+- `apps/docs/`: the docs site (Next.js + Fumadocs). It renders the repo's
+  Markdown in place; edit the Markdown, not the app.
 - `docs/`: guides and ADRs.
 - `.changeset/`: pending changesets and config.
-- `.github/workflows/`: CI, release, snapshot release.
+- `.github/workflows/`: CI, release, snapshot release, docs deploy.
 
 ## Agent rules
 

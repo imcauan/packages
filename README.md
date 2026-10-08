@@ -76,8 +76,8 @@ import them, so nothing extra runs. To skip those installs, set
 
 ## Roadmap
 
-- **Docs site** (planned): a site that renders the package READMEs, guides and
-  ADRs from this repo.
+- **Docs site** (live): [imcauan.github.io/packages](https://imcauan.github.io/packages),
+  rendered from this repo's Markdown ([ADR 0008](docs/adr/0008-docs-site.md)).
 - **`create` CLI** (planned): scaffolds new projects wired up with these
   packages.
 
