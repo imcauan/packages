@@ -10,6 +10,8 @@ const config = {
   // Static site generation: `next build` writes plain HTML to out/.
   output: 'export',
   trailingSlash: true,
+  // No server, so no image optimization API: images are served as they are.
+  images: { unoptimized: true },
   basePath,
   // Client code (the search index URL) needs the base path too.
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
