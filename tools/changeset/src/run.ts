@@ -259,6 +259,7 @@ export async function run(
         published: new Set(
           workspacePackages.filter(pkg => pkg.published).map(pkg => pkg.name),
         ),
+        changed: new Set(changed.map(pkg => pkg.name)),
       },
       'Drafting changeset',
     );
