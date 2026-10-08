@@ -1,4 +1,4 @@
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 
 const run = promisify(execFile);
@@ -35,14 +35,6 @@ export function parsePushRefs(stdin: string): PushRef[] {
 }
 
 export type PushResult = { ok: boolean; output: string };
-
-/** The captured stdout or stderr of a failed child process, if any. */
-function readStream(error: unknown, stream: 'stdout' | 'stderr'): string {
-  if (typeof error !== 'object' || error === null || !(stream in error))
-    return '';
-  const value: unknown = Reflect.get(error, stream);
-  return typeof value === 'string' ? value : '';
-}
 
 /** The git operations the changeset step needs. */
 export class Git {
@@ -138,12 +130,17 @@ export class Git {
 
   /**
    * Pushes `refs` to `remote` with the given extra environment. Never passes
-   * --no-verify: the pre-push hook runs again.
+   * --no-verify: the pre-push hook runs again. `onLine` receives the push's
+   * output (including the hook's) line by line, as it happens.
    */
-  async push(
+  push(
     remote: string,
     refs: readonly PushRef[],
-    options: { setUpstream: boolean; env: Record<string, string> },
+    options: {
+      setUpstream: boolean;
+      env: Record<string, string>;
+      onLine?: (line: string) => void;
+    },
   ): Promise<PushResult> {
     const args = [
       'push',
@@ -152,19 +149,33 @@ export class Git {
       ...refs.map(ref => `${ref.localRef}:${ref.remoteRef}`),
     ];
 
-    try {
-      const { stdout, stderr } = await run('git', args, {
+    return new Promise(resolve => {
+      const child = spawn('git', args, {
         cwd: this.cwd,
         env: { ...process.env, ...options.env },
-        maxBuffer: MAX_BUFFER,
+        stdio: ['ignore', 'pipe', 'pipe'],
       });
-      return { ok: true, output: `${stdout}${stderr}` };
-    } catch (error) {
-      return {
-        ok: false,
-        output: `${readStream(error, 'stdout')}${readStream(error, 'stderr')}`,
+      let output = '';
+      let partialLine = '';
+
+      const onData = (chunk: Buffer) => {
+        const text = chunk.toString();
+        output += text;
+        const lines = `${partialLine}${text}`.split(/\r?\n/);
+        partialLine = lines.pop() ?? '';
+        for (const line of lines) options.onLine?.(line);
       };
-    }
+
+      child.stdout.on('data', onData);
+      child.stderr.on('data', onData);
+      child.on('error', error => {
+        resolve({ ok: false, output: `${output}${error.message}` });
+      });
+      child.on('close', code => {
+        if (partialLine) options.onLine?.(partialLine);
+        resolve({ ok: code === 0, output });
+      });
+    });
   }
 
   private async git(args: readonly string[]): Promise<string> {

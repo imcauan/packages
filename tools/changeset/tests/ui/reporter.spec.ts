@@ -85,4 +85,31 @@ describe('Reporter', () => {
 
     expect(output.text.startsWith('│\n■  any-what')).toBe(true);
   });
+
+  describe('on a terminal', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('should show reported progress and the elapsed time on the spinner line', async () => {
+      const output = new MemoryOutput({ isTTY: true });
+      let time = 0;
+      const sut = new Reporter({
+        output,
+        theme: createTheme({ color: false }),
+        now: () => time,
+      });
+
+      await sut.task('any-label', async progress => {
+        time = 2400;
+        progress('any-detail');
+      });
+
+      expect(output.text).toMatch(/ {2}any-label · any-detail {43}2\.4s/);
+    });
+  });
 });

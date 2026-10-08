@@ -447,6 +447,7 @@ describe('run', () => {
       expect(gitStub.push).toHaveBeenCalledWith('origin', [pushRef], {
         setUpstream: false,
         env: { SKIP_CHANGESET: '1' },
+        onLine: expect.any(Function),
       });
     });
 

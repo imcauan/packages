@@ -1,10 +1,15 @@
 import { Writable } from 'node:stream';
 
-/** A non-TTY output stream that keeps everything written to it. */
+/** An output stream that keeps everything written to it; not a TTY by default. */
 export class MemoryOutput extends Writable {
-  readonly isTTY = false;
+  readonly isTTY: boolean;
   readonly columns = 72;
   private readonly chunks: string[] = [];
+
+  constructor({ isTTY = false }: { isTTY?: boolean } = {}) {
+    super();
+    this.isTTY = isTTY;
+  }
 
   override _write(
     chunk: Buffer | string,
