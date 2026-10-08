@@ -1,0 +1,65 @@
+name: Docs
+
+# Builds the docs site and publishes it to GitHub Pages
+# (https://imcauan.github.io/packages). See docs/adr/0008-docs-site.md.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - README.md
+      - CONSTITUTION.md
+      - CONTRIBUTING.md
+      - docs/**
+      - packages/*/README.md
+      - packages/*/CHANGELOG.md
+      - packages/*/docs/**
+      - apps/docs/**
+      - pnpm-lock.yaml
+      - .github/workflows/docs.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Set up workspace
+        uses: ./.github/actions/setup
+
+      - name: Build the docs site
+        run: pnpm docs:build
+        env:
+          DOCS_BASE_PATH: /packages
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: apps/docs/out
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

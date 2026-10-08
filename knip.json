@@ -20,6 +20,11 @@
     "tools/changeset": {
       "entry": ["tests/**/*.{spec,test}.ts"],
       "project": ["src/**/*.ts", "tests/**/*.ts", "*.config.ts"]
+    },
+    "apps/docs": {
+      "entry": ["tests/**/*.spec.ts"],
+      "project": ["src/**/*.{ts,tsx}", "tests/**/*.ts", "*.config.{ts,mjs}"],
+      "ignoreDependencies": ["tailwindcss"]
     }
   }
 }

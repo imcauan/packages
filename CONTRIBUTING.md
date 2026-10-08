@@ -25,6 +25,7 @@ pnpm build             # tests and type checks read sibling packages from dist
 | `pnpm lint` / `pnpm lint:fix`            | oxlint with type-aware rules                                |
 | `pnpm format` / `pnpm format:fix`        | Checks / applies oxfmt formatting                           |
 | `pnpm knip`                              | Finds unused files, exports and dependencies                |
+| `pnpm docs:dev` / `pnpm docs:build`      | Runs / statically builds the docs site                      |
 | `pnpm changeset`                         | Writes a changeset ([docs/CHANGESET.md](docs/CHANGESET.md)) |
 | `pnpm --filter @imcauan/<name> <script>` | Runs a script in one package                                |
 
