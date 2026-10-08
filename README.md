@@ -55,6 +55,14 @@ example with `actions/setup-node` (`registry-url: https://npm.pkg.github.com`,
 `scope: '@imcauan'`, and `NODE_AUTH_TOKEN` set to the secret). Each package's
 README lists its peer dependencies.
 
+**Optional peers get installed by default.** GitHub Packages drops the
+metadata that marks peers as optional, so npm and pnpm install every peer,
+NestJS and React included, even if you only use a package's core
+([ADR 0007](docs/adr/0007-github-packages-optional-peers.md)). Cores never
+import them, so nothing extra runs. To skip those installs, set
+`auto-install-peers=false` in your project's `.npmrc` (pnpm) or install with
+`--legacy-peer-deps` (npm), and add the required peers yourself.
+
 ## Documentation
 
 - [Constitution](CONSTITUTION.md): the rules every package follows
