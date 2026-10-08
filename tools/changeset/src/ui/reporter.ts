@@ -69,19 +69,22 @@ export class Reporter {
     this.write(this.stepLine(this.theme.success('◇'), label, details));
   }
 
-  /** Runs `work` behind a spinner, then prints it as a finished step. */
+  /**
+   * Runs `work` behind a spinner, then prints it as a finished step. `work`
+   * can report progress; the spinner line shows it with the elapsed time.
+   */
   async task<T>(
     label: string,
-    work: () => Promise<T>,
+    work: (progress: (detail: string) => void) => Promise<T>,
     describe: (result: T) => Omit<StepDetails, 'durationMs'> = () => ({}),
   ): Promise<T> {
     this.rail();
     const startedAt = this.now();
-    const stopSpinner = this.spin(label);
+    const spinner = this.spin(label, startedAt);
 
     try {
-      const result = await work();
-      stopSpinner();
+      const result = await work(spinner.update);
+      spinner.stop();
       this.write(
         this.stepLine(this.theme.success('◇'), label, {
           ...describe(result),
@@ -90,7 +93,7 @@ export class Reporter {
       );
       return result;
     } catch (error) {
-      stopSpinner();
+      spinner.stop();
       throw error;
     }
   }
@@ -151,25 +154,38 @@ export class Reporter {
       : alignRight(left, dim(formatDuration(durationMs)), this.width);
   }
 
-  private spin(label: string): () => void {
+  private spin(
+    label: string,
+    startedAt: number,
+  ): { update: (detail: string) => void; stop: () => void } {
     if (!this.output.isTTY) {
-      return () => {};
+      return { update: () => {}, stop: () => {} };
     }
 
+    const { accent, dim } = this.theme;
     let frame = 0;
+    let detail = '';
     const draw = () => {
-      const symbol = this.theme.accent(
+      const symbol = accent(
         SPINNER_FRAMES[frame % SPINNER_FRAMES.length] ?? '◒',
       );
-      this.output.write(`\r\x1b[2K${symbol}  ${this.theme.accent(label)}`);
+      const left = `${symbol}  ${accent(label)}${detail ? dim(` · ${detail}`) : ''}`;
+      const elapsed = dim(formatDuration(this.now() - startedAt));
+      this.output.write(`\r\x1b[2K${alignRight(left, elapsed, this.width)}`);
       frame += 1;
     };
     draw();
     const timer = setInterval(draw, SPINNER_INTERVAL_MS);
 
-    return () => {
-      clearInterval(timer);
-      this.output.write('\r\x1b[2K');
+    return {
+      update: next => {
+        detail = next;
+        draw();
+      },
+      stop: () => {
+        clearInterval(timer);
+        this.output.write('\r\x1b[2K');
+      },
     };
   }
 

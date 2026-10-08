@@ -124,9 +124,10 @@ build, knip, typecheck and tests pass.
 2. Sends the changed packages, the branch's commit subjects and its diff for
    those packages (without changelogs and `dist`, cut at 120,000 characters)
    to the model, and asks for JSON: packages, a bump each, a summary.
-3. Checks the answer: every package exists in the workspace and is published,
-   no package appears twice, every bump is `patch`, `minor` or `major`, and the
-   summary isn't empty. An invalid answer is retried once.
+3. Checks the answer: every package exists in the workspace, is published and
+   changed on this branch (Changesets bumps dependents itself), no package
+   appears twice, every bump is `patch`, `minor` or `major`, and the summary
+   isn't empty. An invalid answer is retried once.
 4. Asks before keeping a `major` bump. Without a terminal it stops instead.
 5. Writes `.changeset/<random-name>.md`, commits it as `chore: add changeset`,
    and runs `git push` again with `SKIP_CHANGESET=1`, so every check runs

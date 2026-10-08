@@ -14,6 +14,11 @@ export type KnownPackages = {
   workspace: ReadonlySet<string>;
   /** The packages that are published. */
   published: ReadonlySet<string>;
+  /**
+   * The published packages this branch changed. Packages that depend on them
+   * are bumped by Changesets itself, so the draft must not list them.
+   */
+  changed: ReadonlySet<string>;
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -51,6 +56,8 @@ export function validateDraft(
         problems.push(`"${name}" is not a package in this workspace`);
       } else if (!packages.published.has(name)) {
         problems.push(`"${name}" is private and never published`);
+      } else if (!packages.changed.has(name)) {
+        problems.push(`"${name}" didn't change on this branch`);
       } else if (seen.has(name)) {
         problems.push(`"${name}" is listed twice`);
       } else if (!isBump(bump)) {

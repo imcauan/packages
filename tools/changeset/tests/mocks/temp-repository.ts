@@ -45,6 +45,13 @@ export class TempRepository {
     await this.git('commit', '--message', message);
   }
 
+  /** Installs a pre-push hook that runs `script` with sh. */
+  async installPrePushHook(script: string): Promise<void> {
+    const hook = path.join(this.dir, '.git', 'hooks', 'pre-push');
+    await writeFile(hook, `#!/bin/sh\n${script}\n`);
+    await chmod(hook, 0o755);
+  }
+
   /** Installs a pre-push hook that records SKIP_CHANGESET in `hook-ran`. */
   async installRecordingPrePushHook(): Promise<void> {
     const hook = path.join(this.dir, '.git', 'hooks', 'pre-push');

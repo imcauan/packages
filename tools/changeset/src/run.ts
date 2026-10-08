@@ -10,6 +10,7 @@ import {
   type ProviderDefinition,
 } from './generator/providers.ts';
 import type { Git, PushRef } from './git.ts';
+import { scriptFromBanner } from './hook-progress.ts';
 import { renderChangesetBox } from './ui/changeset-box.ts';
 import type { Reporter } from './ui/reporter.ts';
 import type { Theme } from './ui/theme.ts';
@@ -258,6 +259,7 @@ export async function run(
         published: new Set(
           workspacePackages.filter(pkg => pkg.published).map(pkg => pkg.name),
         ),
+        changed: new Set(changed.map(pkg => pkg.name)),
       },
       'Drafting changeset',
     );
@@ -284,10 +286,15 @@ export async function run(
     const remote = options.remote;
     const pushed = await reporter.task(
       'Pushing again with SKIP_CHANGESET=1',
-      () =>
+      progress =>
         git.push(remote, options.pushRefs, {
           setUpstream,
           env: { SKIP_CHANGESET: '1' },
+          // The hook runs one script per check; show which one is running.
+          onLine: line => {
+            const script = scriptFromBanner(line);
+            if (script) progress(`running ${script}`);
+          },
         }),
       () => ({ detail: 'all checks run once more' }),
     );

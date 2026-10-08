@@ -311,6 +311,18 @@ describe('run', () => {
       expect(generatorStub.generate).toHaveBeenCalledTimes(2);
     });
 
+    it('should retry once when the draft lists a package the branch did not change', async () => {
+      const { sut, generatorStub } = makeSut();
+      generatorStub.generate.mockResolvedValueOnce({
+        releases: [{ name: '@imcauan/validation', bump: 'patch' }],
+        summary: 'any-summary',
+      });
+
+      await sut();
+
+      expect(generatorStub.generate).toHaveBeenCalledTimes(2);
+    });
+
     it('should retry once when the answer is not JSON', async () => {
       const { sut, generatorStub } = makeSut();
       generatorStub.generate.mockRejectedValueOnce(
@@ -447,6 +459,7 @@ describe('run', () => {
       expect(gitStub.push).toHaveBeenCalledWith('origin', [pushRef], {
         setUpstream: false,
         env: { SKIP_CHANGESET: '1' },
+        onLine: expect.any(Function),
       });
     });
 

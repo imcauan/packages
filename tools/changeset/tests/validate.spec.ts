@@ -7,6 +7,7 @@ const known: KnownPackages = {
     '@tools/changeset',
   ]),
   published: new Set(['@imcauan/logger', '@imcauan/validation']),
+  changed: new Set(['@imcauan/logger']),
 };
 
 const makeSut = (): typeof validateDraft => validateDraft;
@@ -85,6 +86,23 @@ describe('validateDraft', () => {
     expect(result).toEqual({
       valid: false,
       problems: ['"@tools/changeset" is private and never published'],
+    });
+  });
+
+  it('should reject a published package the branch did not change', () => {
+    const sut = makeSut();
+
+    const result = sut(
+      {
+        releases: [{ name: '@imcauan/validation', bump: 'patch' }],
+        summary: 'any-summary',
+      },
+      known,
+    );
+
+    expect(result).toEqual({
+      valid: false,
+      problems: ['"@imcauan/validation" didn\'t change on this branch'],
     });
   });
 

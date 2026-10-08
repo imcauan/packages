@@ -180,6 +180,22 @@ describe('Git (temporary repository)', () => {
       expect(recorded.trim()).toBe('SKIP_CHANGESET=1');
     });
 
+    it('should pass the output to onLine as it happens', async () => {
+      await repository.installPrePushHook(
+        'echo "> any-repo@ any-script /any/path" >&2',
+      );
+      const head = await repository.git('rev-parse', 'HEAD');
+      const lines: string[] = [];
+
+      await sut.push('origin', [branchRef(head)], {
+        setUpstream: false,
+        env: {},
+        onLine: line => lines.push(line),
+      });
+
+      expect(lines).toContain('> any-repo@ any-script /any/path');
+    });
+
     it('should report a failed push with its output', async () => {
       const result = await sut.push(
         'any-missing-remote',
