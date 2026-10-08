@@ -1,4 +1,5 @@
 import type { Folder, Item, Node, Root } from 'fumadocs-core/page-tree';
+import type { ReactNode } from 'react';
 
 /** What the sidebar needs from a page. */
 export type TreePage = {
@@ -6,6 +7,19 @@ export type TreePage = {
   path: string;
   url: string;
   title: string;
+};
+
+/** The sidebar tabs, in order. */
+export type TabId = 'overview' | 'packages' | 'guides' | 'decisions';
+
+const TABS: Record<TabId, { name: string; description: string }> = {
+  overview: { name: 'Overview', description: 'Start here' },
+  packages: { name: 'Packages', description: 'The @imcauan/* packages' },
+  guides: { name: 'Guides', description: 'How the repo works' },
+  decisions: {
+    name: 'Decisions',
+    description: 'Architecture decision records',
+  },
 };
 
 /** Guides in reading order; any guide not listed follows, by title. */
@@ -41,18 +55,34 @@ function packageNode(readme: TreePage, pages: readonly TreePage[]): Node {
 }
 
 /**
- * The sidebar, grouped in reading order: Overview (home, constitution,
- * contributing), Packages (one entry per package, with its extra pages
- * nested), Guides, then Decisions (the ADR index, then ADRs by number).
- * Packages and ADRs are discovered from the pages, so new ones need no change
- * here.
+ * The sidebar as four tabs (root folders, which Fumadocs shows as a tab
+ * switcher): Overview (home, constitution, contributing), Packages (one entry
+ * per package, its extra pages nested), Guides, and Decisions (the ADR index,
+ * then ADRs by number). Packages and ADRs are discovered from the pages, so
+ * new ones need no change here.
  */
-export function buildTree(pages: readonly TreePage[]): Root {
+export function buildTree(
+  pages: readonly TreePage[],
+  icons: Partial<Record<TabId, ReactNode>> = {},
+): Root {
   const at = (path: string) => pages.find(page => page.path === path);
   const present = (page: TreePage | undefined): page is TreePage =>
     page !== undefined;
 
-  const overview = ['README.md', 'CONSTITUTION.md', 'CONTRIBUTING.md']
+  const tab = (id: TabId, children: Node[], index?: TreePage): Folder => ({
+    type: 'folder',
+    root: true,
+    ...TABS[id],
+    icon: icons[id],
+    ...(index ? { index: item(index) } : {}),
+    children,
+  });
+
+  const [home, ...overview] = [
+    'README.md',
+    'CONSTITUTION.md',
+    'CONTRIBUTING.md',
+  ]
     .map(at)
     .filter(present);
 
@@ -71,7 +101,6 @@ export function buildTree(pages: readonly TreePage[]): Root {
       return rank(a) - rank(b) || byTitle(a, b);
     });
 
-  const adrIndex = at('docs/adr/README.md');
   const adrs = pages
     .filter(page => /^docs\/adr\/\d+[^/]*\.md$/.test(page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
@@ -79,13 +108,10 @@ export function buildTree(pages: readonly TreePage[]): Root {
   return {
     name: 'Docs',
     children: [
-      ...overview.map(item),
-      { type: 'separator', name: 'Packages' },
-      ...packages,
-      { type: 'separator', name: 'Guides' },
-      ...guides.map(item),
-      { type: 'separator', name: 'Decisions' },
-      ...[adrIndex, ...adrs].filter(present).map(item),
+      tab('overview', overview.map(item), home),
+      tab('packages', packages),
+      tab('guides', guides.map(item)),
+      tab('decisions', adrs.map(item), at('docs/adr/README.md')),
     ],
   };
 }
