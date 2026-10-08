@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/tracing",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Starts OpenTelemetry tracing in Node: auto-instrumentation and an OTLP/HTTP exporter.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/tracing#readme",
   "bugs": "https://github.com/imcauan/packages/issues",
