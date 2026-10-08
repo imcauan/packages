@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.json",
+  // What `next build` type-checks: the app only. Tests and the Vitest config
+  // import @imcauan/vitest-config, whose dist only exists after `pnpm build`;
+  // `pnpm typecheck` covers them.
+  "exclude": ["node_modules", "out", ".next", "tests", "vitest.config.ts"]
+}

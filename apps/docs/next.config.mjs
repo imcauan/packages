@@ -16,6 +16,7 @@ const config = {
   // Client code (the search index URL) needs the base path too.
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
   reactStrictMode: true,
+  typescript: { tsconfigPath: 'tsconfig.build.json' },
 };
 
 export default withMDX(config);
