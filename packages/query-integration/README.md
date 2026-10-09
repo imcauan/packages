@@ -8,7 +8,7 @@ React hooks that resolve them from
 ## Install
 
 ```bash
-pnpm add @imcauan/query-integration @tanstack/query-core
+pnpm add @imcauan/query-integration @tanstack/query-core reflect-metadata
 ```
 
 For the React hooks (`@imcauan/query-integration/react`):
@@ -20,9 +20,18 @@ pnpm add @tanstack/react-query
 | Peer                    | Range                  | Needed for                       |
 | ----------------------- | ---------------------- | -------------------------------- |
 | `@tanstack/query-core`  | `^5.90.0`              | Required (option types)          |
+| `reflect-metadata`      | `^0.2.0`               | Required (stores the options)    |
 | `@tanstack/react-query` | `^5.90.0`              | `/react`                         |
 | `react`                 | `^18.2.0 \|\| ^19.0.0` | `/react` (your React app has it) |
 
+Import `reflect-metadata` once, before any decorated class loads, for
+example at the top of your entry file:
+
+```ts
+import 'reflect-metadata';
+```
+
+The package doesn't import it itself, so your app loads one copy.
 `@imcauan/dependency-injection` is a regular dependency. See the
 [root README](../../README.md#install) to set up the GitHub Packages registry.
 
@@ -124,8 +133,8 @@ params.
 
 ## Design notes
 
-- Options are stored in a `WeakMap`, not with `reflect-metadata`, so there's
-  no global polyfill to load.
+- Options are stored with `reflect-metadata`, which looks up base classes,
+  so subclasses inherit them.
 - The core's types come from `@tanstack/query-core`, which every TanStack
   Query adapter shares, so the decorators don't tie a use case to React.
 - The decorators work with both TypeScript's `experimentalDecorators` and
