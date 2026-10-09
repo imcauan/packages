@@ -1,0 +1,70 @@
+{
+  "name": "@imcauan/form",
+  "version": "0.0.0",
+  "description": "Validates react-hook-form forms with @imcauan/validation schemas: a resolver, and a useForm hook for React.",
+  "homepage": "https://github.com/imcauan/packages/tree/main/packages/form#readme",
+  "bugs": "https://github.com/imcauan/packages/issues",
+  "license": "MIT",
+  "author": "Cauan Diniz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imcauan/packages.git",
+    "directory": "packages/form"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.mts",
+      "default": "./dist/react/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@imcauan/validation": "workspace:^"
+  },
+  "devDependencies": {
+    "@imcauan/typescript-config": "workspace:*",
+    "@imcauan/vitest-config": "workspace:*",
+    "@testing-library/react": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "jsdom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-hook-form": "7.88.0",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-hook-form": "^7.55.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
