@@ -23,6 +23,7 @@ production app and are published as ESM with type declarations under
 | [`@imcauan/feature-flags`](packages/feature-flags)               | A feature-flag port, and a NestJS guard that gates routes on it   | `/nestjs`            |
 | [`@imcauan/routines`](packages/routines)                         | Scheduled routines with an overlap guard and error isolation      | `/nestjs`            |
 | [`@imcauan/tracing`](packages/tracing)                           | Starts OpenTelemetry tracing in Node                              | `/register`          |
+| [`@imcauan/translation`](packages/translation)                   | Typed translators for Paraglide catalogs and nestjs-i18n          | `/nestjs`            |
 | [`@imcauan/test-setup`](packages/test-setup)                     | Test helpers: container lifecycle, test-type reporter             | `/vitest`            |
 | [`@imcauan/vitest-config`](packages/vitest-config)               | Shared Vitest config and presets                                  |                      |
 | [`@imcauan/typescript-config`](packages/typescript-config)       | Shared `tsconfig` bases                                           |                      |
