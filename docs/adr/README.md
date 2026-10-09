@@ -13,6 +13,7 @@ edited after it's accepted; a new ADR supersedes it and links back.
 | [0006](0006-changeset-generator-port.md)         | Changeset providers behind a port                   |
 | [0007](0007-github-packages-optional-peers.md)   | Optional peers on GitHub Packages                   |
 | [0008](0008-docs-site.md)                        | A docs site rendered from the repository's Markdown |
+| [0009](0009-tracing-node-only-core.md)           | `@imcauan/tracing` has a Node-only core             |
 
 To add one, copy the newest file, take the next number, and add it to this
 table.

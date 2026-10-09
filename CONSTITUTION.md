@@ -47,6 +47,9 @@ Each exception is named here; there are no implicit ones.
   instead of `dist` (rule 8). There is nothing to build.
 - **`@imcauan/vitest-config`** imports `vitest` from its core (rule 1). Vitest is
   the package's purpose, so `vitest` is a required peer dependency.
+- **`@imcauan/tracing`** has a Node-only core (rule 1). It starts the
+  OpenTelemetry Node SDK, which is the package's purpose
+  ([ADR 0009](docs/adr/0009-tracing-node-only-core.md)).
 
 ## Child documents
 
