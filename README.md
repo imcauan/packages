@@ -26,6 +26,7 @@ production app and are published as ESM with type declarations under
 | [`@imcauan/translation`](packages/translation)                   | Typed translators for Paraglide catalogs and nestjs-i18n          | `/nestjs`                          |
 | [`@imcauan/jwt`](packages/jwt)                                   | Token signer and verifier ports with typed verification errors    | `/nestjs`                          |
 | [`@imcauan/push-notifications`](packages/push-notifications)     | Web Push: subscribe in the browser, send from the server          | `/browser`, `/web-push`, `/nestjs` |
+| [`@imcauan/http-client`](packages/http-client)                   | HTTP client ports with normalized responses, retries and hooks    | `/axios`                           |
 | [`@imcauan/test-setup`](packages/test-setup)                     | Test helpers: container lifecycle, test-type reporter             | `/vitest`                          |
 | [`@imcauan/vitest-config`](packages/vitest-config)               | Shared Vitest config and presets                                  |                                    |
 | [`@imcauan/typescript-config`](packages/typescript-config)       | Shared `tsconfig` bases                                           |                                    |
