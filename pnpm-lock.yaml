@@ -501,6 +501,52 @@ importers:
         specifier: 3.6.7
         version: 3.6.7
 
+  packages/query-integration:
+    dependencies:
+      '@imcauan/dependency-injection':
+        specifier: workspace:^
+        version: link:../dependency-injection
+    devDependencies:
+      '@imcauan/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@imcauan/vitest-config':
+        specifier: workspace:*
+        version: link:../vitest-config
+      '@tanstack/query-core':
+        specifier: 5.102.8
+        version: 5.102.8
+      '@tanstack/react-query':
+        specifier: 5.102.8
+        version: 5.102.8(react@19.3.0)
+      '@testing-library/react':
+        specifier: 'catalog:'
+        version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.1.0
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
+      jsdom:
+        specifier: 'catalog:'
+        version: 30.0.1
+      react:
+        specifier: 'catalog:'
+        version: 19.3.0
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.3.0(react@19.3.0)
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.23.0(oxc-resolver@11.24.2)(typescript@6.0.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.0(@opentelemetry/api@1.9.1)(@types/node@25.1.0)(jsdom@30.0.1)(vite@8.3.3(@types/node@25.1.0)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+
   packages/routines:
     devDependencies:
       '@imcauan/typescript-config':
@@ -2838,6 +2884,14 @@ packages:
 
   '@tailwindcss/postcss@4.3.3':
     resolution: {integrity: sha512-JTSZZGQi1AyKirbLN3azmjVzef92tcX7h+iSqPdaeStyFpGpDlKvvpxeOE8njhbUanbRwr3z8DyzhICWnMtQeg==}
+
+  '@tanstack/query-core@5.102.8':
+    resolution: {integrity: sha512-ZNjkJ33CqvPNec/6lZBnHqLc3EVGPZ9ySLhYahU9TcuRFdmwXewuj0c4hwSWcGHqEUwcSrKeZ+oGcvPBqXcQcg==}
+
+  '@tanstack/react-query@5.102.8':
+    resolution: {integrity: sha512-TYBea4OuXWD7MhaSHq069TWbFe7rcwWN6kzT7JF0OKi1K6c1gTv2IzD6A6ExJsCMozdkqBWeuIUZmu4KQg0O5A==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@testing-library/dom@10.4.2':
     resolution: {integrity: sha512-yzr2S9HyAIdhz2/6qHgbs665Q7PKVcDF05vsOlHPxG1mo36gKVesdYVeDLnXgfjJ03CrKRk08knc6+E/9m8v2Q==}
@@ -7468,6 +7522,13 @@ snapshots:
       '@tailwindcss/oxide': 4.3.3
       postcss: 8.5.28
       tailwindcss: 4.3.3
+
+  '@tanstack/query-core@5.102.8': {}
+
+  '@tanstack/react-query@5.102.8(react@19.3.0)':
+    dependencies:
+      '@tanstack/query-core': 5.102.8
+      react: 19.3.0
 
   '@testing-library/dom@10.4.2':
     dependencies:
