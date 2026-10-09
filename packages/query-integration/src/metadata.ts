@@ -1,21 +1,20 @@
+// Types only: the app loads the `reflect-metadata` polyfill once, at startup.
+import type {} from 'reflect-metadata';
+
 import type { CommandMetadata, QueryMetadata } from './types';
 
-// Options are stored untyped: the class's type parameters don't exist at runtime.
-const queryOptions = new WeakMap<object, object>();
-const commandOptions = new WeakMap<object, object>();
+const QUERY_OPTIONS = Symbol('@imcauan/query-integration/query-options');
+const COMMAND_OPTIONS = Symbol('@imcauan/query-integration/command-options');
 
-/** Reads `store` for a class or an instance, walking up to base classes. */
-function lookup<T>(store: WeakMap<object, T>, target: object): T | undefined {
-  let current: unknown =
-    typeof target === 'function' ? target : target.constructor;
-
-  while (typeof current === 'function') {
-    const options = store.get(current);
-    if (options !== undefined) return options;
-    current = Object.getPrototypeOf(current);
-  }
-
-  return undefined;
+/**
+ * Reads `key` for a class or an instance. `Reflect.getMetadata` walks up to
+ * base classes, so subclasses inherit their parent's options.
+ */
+function lookup(key: symbol, target: object): unknown {
+  return Reflect.getMetadata(
+    key,
+    typeof target === 'function' ? target : target.constructor,
+  );
 }
 
 /**
@@ -44,7 +43,7 @@ export function QueryOptions<
   options: QueryMetadata<TQueryData, TError, TSelectedData, TParams>,
 ): ClassDecorator {
   return target => {
-    queryOptions.set(target, options);
+    Reflect.defineMetadata(QUERY_OPTIONS, options, target);
   };
 }
 
@@ -73,7 +72,7 @@ export function CommandOptions<
   options: CommandMetadata<TResult, TError, TVariables, TContext>,
 ): ClassDecorator {
   return target => {
-    commandOptions.set(target, options);
+    Reflect.defineMetadata(COMMAND_OPTIONS, options, target);
   };
 }
 
@@ -86,8 +85,10 @@ export function getQueryOptions<
 >(
   target: object,
 ): QueryMetadata<TQueryData, TError, TSelectedData, TParams> | undefined {
-  // Stored by `QueryOptions`; the type parameters are the caller's to match.
-  return lookup(queryOptions, target);
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- stored by QueryOptions; the type parameters are the caller's to match
+  return lookup(QUERY_OPTIONS, target) as
+    | QueryMetadata<TQueryData, TError, TSelectedData, TParams>
+    | undefined;
 }
 
 /** The `@CommandOptions` of a class or instance, inherited from base classes. */
@@ -99,6 +100,8 @@ export function getCommandOptions<
 >(
   target: object,
 ): CommandMetadata<TResult, TError, TVariables, TContext> | undefined {
-  // Stored by `CommandOptions`; the type parameters are the caller's to match.
-  return lookup(commandOptions, target);
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- stored by CommandOptions; the type parameters are the caller's to match
+  return lookup(COMMAND_OPTIONS, target) as
+    | CommandMetadata<TResult, TError, TVariables, TContext>
+    | undefined;
 }

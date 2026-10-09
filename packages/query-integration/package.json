@@ -52,6 +52,7 @@
     "jsdom": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "reflect-metadata": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
@@ -59,7 +60,8 @@
   "peerDependencies": {
     "@tanstack/query-core": "^5.90.0",
     "@tanstack/react-query": "^5.90.0",
-    "react": "^18.2.0 || ^19.0.0"
+    "react": "^18.2.0 || ^19.0.0",
+    "reflect-metadata": "^0.2.0"
   },
   "peerDependenciesMeta": {
     "@tanstack/react-query": {

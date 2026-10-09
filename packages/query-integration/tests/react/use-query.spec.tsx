@@ -1,4 +1,6 @@
 // @vitest-environment jsdom
+import 'reflect-metadata';
+
 import { createInjectionToken } from '@imcauan/dependency-injection';
 import { renderHook, waitFor } from '@testing-library/react';
 
