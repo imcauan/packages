@@ -28,6 +28,7 @@ production app and are published as ESM with type declarations under
 | [`@imcauan/push-notifications`](packages/push-notifications)     | Web Push: subscribe in the browser, send from the server          | `/browser`, `/web-push`, `/nestjs` |
 | [`@imcauan/http-client`](packages/http-client)                   | HTTP client ports with normalized responses, retries and hooks    | `/axios`                           |
 | [`@imcauan/form`](packages/form)                                 | Validates react-hook-form forms with `@imcauan/validation`        | `/react`                           |
+| [`@imcauan/query-integration`](packages/query-integration)       | TanStack Query options on use cases, run with React hooks         | `/react`                           |
 | [`@imcauan/test-setup`](packages/test-setup)                     | Test helpers: container lifecycle, test-type reporter             | `/vitest`                          |
 | [`@imcauan/vitest-config`](packages/vitest-config)               | Shared Vitest config and presets                                  |                                    |
 | [`@imcauan/typescript-config`](packages/typescript-config)       | Shared `tsconfig` bases                                           |                                    |
