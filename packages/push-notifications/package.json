@@ -1,0 +1,79 @@
+{
+  "name": "@imcauan/push-notifications",
+  "version": "0.0.0",
+  "description": "Web Push for both ends: a browser adapter to subscribe, a web-push sender for the server, and a NestJS module.",
+  "homepage": "https://github.com/imcauan/packages/tree/main/packages/push-notifications#readme",
+  "bugs": "https://github.com/imcauan/packages/issues",
+  "license": "MIT",
+  "author": "Cauan Diniz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imcauan/packages.git",
+    "directory": "packages/push-notifications"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./browser": {
+      "types": "./dist/browser/index.d.mts",
+      "default": "./dist/browser/index.mjs"
+    },
+    "./web-push": {
+      "types": "./dist/web-push/index.d.mts",
+      "default": "./dist/web-push/index.mjs"
+    },
+    "./nestjs": {
+      "types": "./dist/nestjs/index.d.mts",
+      "default": "./dist/nestjs/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@imcauan/typescript-config": "workspace:*",
+    "@imcauan/vitest-config": "workspace:*",
+    "@nestjs/common": "catalog:",
+    "@nestjs/core": "catalog:",
+    "@nestjs/testing": "catalog:",
+    "@types/node": "catalog:",
+    "@types/web-push": "3.6.4",
+    "reflect-metadata": "catalog:",
+    "rxjs": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "web-push": "3.6.7"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^12.0.0",
+    "web-push": "^3.6.0"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/common": {
+      "optional": true
+    },
+    "web-push": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}

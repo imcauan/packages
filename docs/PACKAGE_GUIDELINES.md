@@ -134,8 +134,10 @@ export default defineConfig({
 | Example  | `@imcauan/environment`: `createTypedEnv`, the `IEnvironment` port     | `@imcauan/environment/nestjs`: `EnvironmentGatewayModule`, `NestJsEnvironmentAdapter` |
 
 If a symbol could live in either, it belongs in the core. A subpath name names
-the framework (`nestjs`, `react`, `vitest`), or a purpose that isn't
-production code (`testing`).
+the framework (`nestjs`, `react`, `vitest`), the runtime its code needs
+(`browser`), the library it adapts (`web-push`), or a purpose that isn't
+production code (`testing`). An adapter for a library gets its own subpath
+rather than sharing a framework's, so apps without that framework can use it.
 
 A subpath may also be a side-effect entry: importing it does the work, as
 `@imcauan/tracing/register` starts tracing. List its built file in
