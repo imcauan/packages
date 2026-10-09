@@ -30,7 +30,7 @@ an integration folder; integrations import from the core.
 ```jsonc
 {
   "name": "@imcauan/<name>",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "One sentence: what the package does.",
   "license": "MIT",
   "author": "Cauan Diniz",
@@ -137,6 +137,11 @@ If a symbol could live in either, it belongs in the core. A subpath name names
 the framework (`nestjs`, `react`, `vitest`), or a purpose that isn't
 production code (`testing`).
 
+A subpath may also be a side-effect entry: importing it does the work, as
+`@imcauan/tracing/register` starts tracing. List its built file in
+`sideEffects` so bundlers keep it, and keep the logic in the core, so the
+entry only calls it.
+
 ## Tests
 
 See [TESTING.md](TESTING.md). In short: `tests/` mirrors `src/`, unit tests are
@@ -166,7 +171,7 @@ of a real app.
 - [ ] The package belongs here: it's reusable, and nothing in it knows about a
       specific app.
 - [ ] Create `packages/<name>/` with the layout above.
-- [ ] `package.json` matches the template: version `0.1.0`, `exports` to
+- [ ] `package.json` matches the template: version `0.0.0`, `exports` to
       `dist`, `files`, `publishConfig`, `repository.directory`.
 - [ ] `tsconfig.json` extends `@imcauan/typescript-config`; `vitest.config.ts`
       uses `@imcauan/vitest-config`.
@@ -177,5 +182,6 @@ of a real app.
 - [ ] Check it on the docs site (`pnpm docs:dev`). The README appears there
       automatically, and every relative link must resolve, or the site build
       fails.
-- [ ] Add a changeset only if the package already exists on the registry. A
-      new package is published at its initial `0.1.0` without one.
+- [ ] Add a `minor` changeset ("Add the `@imcauan/<name>` package…"). The
+      version PR takes the package from `0.0.0` to `0.1.0`, and its first
+      changelog entry ([details](CHANGESET.md#new-packages)).
