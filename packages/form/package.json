@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/form",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Validates react-hook-form forms with @imcauan/validation schemas: a resolver, and a useForm hook for React.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/form#readme",
   "bugs": "https://github.com/imcauan/packages/issues",

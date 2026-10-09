@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/translation",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Typed translators: an adapter for Paraglide message catalogs, and a NestJS adapter and module built on nestjs-i18n.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/translation#readme",
   "bugs": "https://github.com/imcauan/packages/issues",

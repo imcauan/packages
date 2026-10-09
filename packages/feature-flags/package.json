@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/feature-flags",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A feature-flag port with a no-op default, and a NestJS guard and decorator that gate routes on it.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/feature-flags#readme",
   "bugs": "https://github.com/imcauan/packages/issues",

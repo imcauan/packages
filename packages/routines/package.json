@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/routines",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Scheduled routines with an overlap guard and error isolation, with a NestJS module built on @nestjs/schedule.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/routines#readme",
   "bugs": "https://github.com/imcauan/packages/issues",

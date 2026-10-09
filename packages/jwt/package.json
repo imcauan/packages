@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/jwt",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Token signer and verifier ports with typed verification errors, and a NestJS adapter built on @nestjs/jwt.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/jwt#readme",
   "bugs": "https://github.com/imcauan/packages/issues",
