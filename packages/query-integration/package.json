@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/query-integration",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Declares TanStack Query options on use-case classes with decorators, and runs them as queries and mutations with React hooks.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/query-integration#readme",
   "bugs": "https://github.com/imcauan/packages/issues",

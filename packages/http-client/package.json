@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/http-client",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "HTTP client ports with normalized responses, retries and lifecycle hooks, and an adapter built on axios.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/http-client#readme",
   "bugs": "https://github.com/imcauan/packages/issues",

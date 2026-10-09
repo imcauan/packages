@@ -1,6 +1,6 @@
 {
   "name": "@imcauan/push-notifications",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Web Push for both ends: a browser adapter to subscribe, a web-push sender for the server, and a NestJS module.",
   "homepage": "https://github.com/imcauan/packages/tree/main/packages/push-notifications#readme",
   "bugs": "https://github.com/imcauan/packages/issues",
