@@ -48,9 +48,11 @@ Publishing authenticates with the workflow's `GITHUB_TOKEN`
 
 ### First release
 
-Every package starts at `0.1.0` with no changeset. On the first push to `main`
-with the release workflow, nothing is pending, so `changeset publish` publishes
-all of them at `0.1.0`. Before that push:
+The first seven packages started at `0.1.0` with no changeset, because they
+existed before the release workflow did: on its first run nothing was pending,
+so `changeset publish` published all of them at `0.1.0`. Packages added since
+then start at `0.0.0` with a `minor` changeset
+([new packages](CHANGESET.md#new-packages)). The checklist for that first run:
 
 - [ ] The repository is `github.com/imcauan/packages`. The package scope must
       match the owner.
