@@ -20,6 +20,7 @@ production app and are published as ESM with type declarations under
 | [`@imcauan/environment`](packages/environment)                   | Typed, validated environment variables                            | `/nestjs`            |
 | [`@imcauan/dependency-injection`](packages/dependency-injection) | Token-based dependency injection without reflection               | `/react`, `/testing` |
 | [`@imcauan/logger`](packages/logger)                             | Structured logging with OpenTelemetry trace correlation           | `/nestjs`            |
+| [`@imcauan/tracing`](packages/tracing)                           | Starts OpenTelemetry tracing in Node                              | `/register`          |
 | [`@imcauan/test-setup`](packages/test-setup)                     | Test helpers: container lifecycle, test-type reporter             | `/vitest`            |
 | [`@imcauan/vitest-config`](packages/vitest-config)               | Shared Vitest config and presets                                  |                      |
 | [`@imcauan/typescript-config`](packages/typescript-config)       | Shared `tsconfig` bases                                           |                      |

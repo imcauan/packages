@@ -41,6 +41,16 @@ Packages that depend on a bumped package in this repo (for example,
 a `patch` bump automatically. Run `pnpm changeset status --verbose` to see the
 full release plan.
 
+## New packages
+
+A new package starts at version `0.0.0` and its PR adds a `minor`
+changeset, for example "Add the `@imcauan/<name>` package to …". The version
+PR bumps it to `0.1.0` and writes its first changelog entry; `0.0.0` is never
+published.
+
+Don't start a new package at `0.1.0`: CI requires a changeset for it like for
+any other change, and a `minor` bump would publish it as `0.2.0`.
+
 ## Writing one by hand
 
 ```bash
